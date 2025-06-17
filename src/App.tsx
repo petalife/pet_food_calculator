@@ -417,7 +417,7 @@ const INGREDIENTS = {
 const GROUPS = ['meats', 'carbons', 'vegetables', 'others'] as const;
 type Group = typeof GROUPS[number];
 
-const calculateNutritionalValues = (calories: number, ingredientAmounts: { [key: string]: number }) => {
+const calculateNutritionalValues = (ingredientAmounts: { [key: string]: number }) => {
   // Calculate total weight of all ingredients
   const totalWeight = Object.values(ingredientAmounts).reduce((sum, amount) => sum + amount, 0);
   
@@ -466,8 +466,7 @@ const calculateNutritionalValues = (calories: number, ingredientAmounts: { [key:
 const calculateOptimalAmounts = (
   ingredients: string[],
   categoryCalories: number,
-  totalCalories: number,
-  dryMatterTarget: number
+
 ) => {
   if (ingredients.length === 1) {
     // If only one ingredient, use simple calorie-based calculation
@@ -475,11 +474,6 @@ const calculateOptimalAmounts = (
     const amount = (categoryCalories / energyPer100g) * 100;
     return { [ingredients[0]]: Math.round(amount) };
   }
-
-  // For multiple ingredients, we need to optimize based on nutritional requirements
-  const targetProtein = dryMatterTarget * 0.30; // 30% of dry matter
-  const targetFat = dryMatterTarget * 0.17; // 17% of dry matter
-  const targetVitaminD = (totalCalories / 100) * 0.59; // 0.59 IU per 100g
 
   // Calculate nutritional values per 100g for each ingredient
   const ingredientNutrition = ingredients.map(ingredient => ({
@@ -669,8 +663,7 @@ const calculateIngredientAmounts = (calories: number, selectedIngredients: { [K 
       const optimizedAmounts = calculateOptimalAmounts(
         ingredients,
         allocations[group],
-        calories,
-        totalDryMatter
+
       );
       Object.assign(amounts, optimizedAmounts);
     }
@@ -766,7 +759,7 @@ function App() {
               <div className="nutritional-analysis">
                 <h3>營養分析：</h3>
                 {(() => {
-                  const nutrition = calculateNutritionalValues(calories, ingredientAmounts);
+                  const nutrition = calculateNutritionalValues(ingredientAmounts);
                   return (
                     <ul>
                       <li>總重量: {Math.round(nutrition.totalWeight)}g</li>
