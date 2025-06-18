@@ -384,6 +384,156 @@ const INGREDIENT_WATER: IngredientNutrition = {
   'Coconut oil': 0.03
 };
 
+// Add calcium values for each ingredient (mg/100g)
+const INGREDIENT_CALCIUM: IngredientNutrition = {
+  // Meats (in Google Sheet order)
+  'Chicken breast': 5,
+  'Pork': 14,
+  'Beef': 12,
+  'Turkey': 19,
+  'Tuna': 4,
+  'Salmon': 11,
+  'Lamb': 16,
+  'Duck': 11,
+  'Rabbit': 13,
+  'Goat': 13,
+  'Sardine': 382,
+  'Deer': 11,
+  'Quail': 13,
+  'Goose': 13,
+  'Mackerel': 23,
+  'Ostrich': 7,
+  'Chicken heart': 45.45,
+  'Shrimp': 64,
+  'Mussel': 26,
+  'Cod': 16,
+  'Herring': 57,
+
+  // Carbons (in Google Sheet order)
+  'Rice': 10,
+  'Corn': 7,
+  'Barley': 33,
+  'Spaghetti': 30,
+  'Potato': 9,
+  'Oat': 58,
+  'Tapioca': 20,
+  'Millet': 8,
+  'Quinoa': 47,
+  'Sorghum': 13,
+  'Rye': 24,
+  'Buckwheat': 18,
+  'Lentils': 35,
+  'Chickpeas': 57,
+  'Sweet potato': 30,
+  'Cassava': 16,
+
+  // Vegetables (in Google Sheet order)
+  'Carrot': 33,
+  'Peas': 25,
+  'Brussel sprouts': 42,
+  'Pumpkin': 21,
+  'Spinach': 99,
+  'Broccoli': 47,
+  'Zucchini': 16,
+  'Green bean': 37,
+  'Cauliflower': 22,
+  'Beet': 16,
+  'Kale': 254,
+  'Cucumber': 16,
+  'Squash': 15,
+  'Parsnip': 36,
+  'Celery': 40,
+  'Sweet pepper': 10,
+  'Tomato': 10,
+  'Eggplant': 9,
+
+  // Others (in Google Sheet order)
+  'Egg': 7,
+  'Cheese': 674,
+  'Plain yogurt': 183,
+  'Peanut butter': 41,
+  'Strawberry': 16,
+  'Blueberry': 6,
+  'Chia seed': 631,
+  'Flaxseed': 255,
+  'Coconut oil': 1
+};
+
+// Add phosphorus values for each ingredient (mg/100g)
+const INGREDIENT_PHOSPHORUS: IngredientNutrition = {
+  // Meats (in Google Sheet order)
+  'Chicken breast': 213,
+  'Pork': 175,
+  'Beef': 175,
+  'Turkey': 200,
+  'Tuna': 278,
+  'Salmon': 283,
+  'Lamb': 157,
+  'Duck': 203,
+  'Rabbit': 213,
+  'Goat': 180,
+  'Sardine': 490,
+  'Deer': 252,
+  'Quail': 307,
+  'Goose': 312,
+  'Mackerel': 125,
+  'Ostrich': 199,
+  'Chicken heart': 670.45,
+  'Shrimp': 214,
+  'Mussel': 197,
+  'Cod': 203,
+  'Herring': 236,
+
+  // Carbons (in Google Sheet order)
+  'Rice': 98,
+  'Corn': 210,
+  'Barley': 264,
+  'Spaghetti': 108,
+  'Potato': 62,
+  'Oat': 734,
+  'Tapioca': 7,
+  'Millet': 285,
+  'Quinoa': 457,
+  'Sorghum': 289,
+  'Rye': 332,
+  'Buckwheat': 347,
+  'Lentils': 281,
+  'Chickpeas': 252,
+  'Sweet potato': 47,
+  'Cassava': 27,
+
+  // Vegetables (in Google Sheet order)
+  'Carrot': 35,
+  'Peas': 108,
+  'Brussel sprouts': 69,
+  'Pumpkin': 44,
+  'Spinach': 49,
+  'Broccoli': 66,
+  'Zucchini': 38,
+  'Green bean': 38,
+  'Cauliflower': 44,
+  'Beet': 40,
+  'Kale': 55,
+  'Cucumber': 24,
+  'Squash': 38,
+  'Parsnip': 71,
+  'Celery': 24,
+  'Sweet pepper': 20,
+  'Tomato': 24,
+  'Eggplant': 24,
+
+  // Others (in Google Sheet order)
+  'Egg': 15,
+  'Cheese': 451,
+  'Plain yogurt': 144,
+  'Peanut butter': 317,
+  'Strawberry': 24,
+  'Blueberry': 12,
+  'Chia seed': 860,
+  'Flaxseed': 642,
+  'Coconut oil': 0
+};
+
 const INGREDIENTS = {
   meats: [
     'Chicken breast', 'Pork', 'Beef', 'Turkey', 'Tuna', 'Salmon', 'Lamb', 'Duck', 'Rabbit', 'Goat', 'Sardine', 'Deer', 'Quail', 'Goose', 'Mackerel',
@@ -421,21 +571,27 @@ const calculateNutritionalValues = (ingredientAmounts: { [key: string]: number }
   // Calculate total weight of all ingredients
   const totalWeight = Object.values(ingredientAmounts).reduce((sum, amount) => sum + amount, 0);
   
-  // Calculate total protein, fat, and vitamin D from ingredients
+  // Calculate total protein, fat, vitamin D, calcium, and phosphorus from ingredients
   let totalProtein = 0;
   let totalFat = 0;
   let totalVitaminD = 0;
+  let totalCalcium = 0;
+  let totalPhosphorus = 0;
   let totalWaterWeight = 0;
   
   Object.entries(ingredientAmounts).forEach(([ingredient, amount]) => {
     const proteinPer100g = INGREDIENT_PROTEIN[ingredient];
     const fatPer100g = INGREDIENT_FAT[ingredient];
     const vitaminDPer100g = INGREDIENT_VITAMIN_D[ingredient];
+    const calciumPer100g = INGREDIENT_CALCIUM[ingredient];
+    const phosphorusPer100g = INGREDIENT_PHOSPHORUS[ingredient];
     const waterPer100g = INGREDIENT_WATER[ingredient];
     
     totalProtein += (proteinPer100g * amount) / 100;
     totalFat += (fatPer100g * amount) / 100;
     totalVitaminD += (vitaminDPer100g * amount) / 100;
+    totalCalcium += (calciumPer100g * amount) / 100;
+    totalPhosphorus += (phosphorusPer100g * amount) / 100;
     totalWaterWeight += (waterPer100g * amount) / 100;
   });
 
@@ -455,6 +611,8 @@ const calculateNutritionalValues = (ingredientAmounts: { [key: string]: number }
     totalProtein,
     totalFat,
     totalVitaminD,
+    totalCalcium,
+    totalPhosphorus,
     targetProtein,
     targetFat,
     targetVitaminD,
@@ -482,6 +640,8 @@ const calculateOptimalAmounts = (
     protein: INGREDIENT_PROTEIN[ingredient],
     fat: INGREDIENT_FAT[ingredient],
     vitaminD: INGREDIENT_VITAMIN_D[ingredient],
+    calcium: INGREDIENT_CALCIUM[ingredient],
+    phosphorus: INGREDIENT_PHOSPHORUS[ingredient],
     water: INGREDIENT_WATER[ingredient]
   }));
 
@@ -518,6 +678,8 @@ const calculateOptimalAmounts = (
       let totalProtein = 0;
       let totalFat = 0;
       let totalVitaminD = 0;
+      let totalCalcium = 0;
+      let totalPhosphorus = 0;
       let totalWater = 0;
 
       Object.entries(amounts).forEach(([ingredient, amount]) => {
@@ -526,6 +688,8 @@ const calculateOptimalAmounts = (
           totalProtein += (nutrition.protein * amount) / 100;
           totalFat += (nutrition.fat * amount) / 100;
           totalVitaminD += (nutrition.vitaminD * amount) / 100;
+          totalCalcium += (nutrition.calcium * amount) / 100;
+          totalPhosphorus += (nutrition.phosphorus * amount) / 100;
           totalWater += (nutrition.water * amount) / 100;
         }
       });
@@ -534,14 +698,15 @@ const calculateOptimalAmounts = (
       const proteinRatio = totalProtein / dryMatter;
       const fatRatio = totalFat / dryMatter;
       const vitaminDRatio = totalVitaminD / totalAmount;
+      const calciumPhosphorusRatio = totalCalcium / totalPhosphorus;
 
       // Count how many targets are met (considering 80-120% range as acceptable)
       let targetsMet = 0;
       
-      // Protein scoring (30 points)
+      // Protein scoring (20 points)
       if (proteinRatio >= 0.24 && proteinRatio <= 0.36) targetsMet += 20;
-      else if (proteinRatio >= 0.20 && proteinRatio <= 0.40) targetsMet += 30;
-      else if (proteinRatio >= 0.15 && proteinRatio <= 0.45) targetsMet += 10;
+      else if (proteinRatio >= 0.20 && proteinRatio <= 0.40) targetsMet += 10;
+      else if (proteinRatio >= 0.15 && proteinRatio <= 0.45) targetsMet += 5;
 
       // Fat scoring (30 points) - Increased importance
       if (fatRatio >= 0.136 && fatRatio <= 0.204) targetsMet += 30;
@@ -551,6 +716,11 @@ const calculateOptimalAmounts = (
       // Vitamin D scoring (10 points)
       if (Math.abs(vitaminDRatio - 0.0059) <= 0.001) targetsMet += 10;
       else if (Math.abs(vitaminDRatio - 0.0059) <= 0.002) targetsMet += 5;
+
+      // Calcium to Phosphorus ratio scoring (30 points)
+      if (calciumPhosphorusRatio >= 1.1 && calciumPhosphorusRatio <= 1.2) targetsMet += 30;
+      else if ((calciumPhosphorusRatio >= 0.9 && calciumPhosphorusRatio <= 1.1) || 
+               (calciumPhosphorusRatio >= 1.2 && calciumPhosphorusRatio <= 1.5)) targetsMet += 20;
 
       if (targetsMet > maxTargetsMet) {
         maxTargetsMet = targetsMet;
@@ -589,6 +759,8 @@ const calculateOptimalAmounts = (
       let totalProtein = 0;
       let totalFat = 0;
       let totalVitaminD = 0;
+      let totalCalcium = 0;
+      let totalPhosphorus = 0;
       let totalWater = 0;
 
       Object.entries(amounts).forEach(([ingredient, amount]) => {
@@ -597,6 +769,8 @@ const calculateOptimalAmounts = (
           totalProtein += (nutrition.protein * amount) / 100;
           totalFat += (nutrition.fat * amount) / 100;
           totalVitaminD += (nutrition.vitaminD * amount) / 100;
+          totalCalcium += (nutrition.calcium * amount) / 100;
+          totalPhosphorus += (nutrition.phosphorus * amount) / 100;
           totalWater += (nutrition.water * amount) / 100;
         }
       });
@@ -605,12 +779,16 @@ const calculateOptimalAmounts = (
       const proteinRatio = totalProtein / dryMatter;
       const fatRatio = totalFat / dryMatter;
       const vitaminDRatio = totalVitaminD / totalAmount;
+      const calciumPhosphorusRatio = totalCalcium / totalPhosphorus;
 
       // Count how many targets are met (considering 80-120% range as acceptable)
       let targetsMet = 0;
       if (proteinRatio >= 0.24 && proteinRatio <= 0.36) targetsMet += 30; // Protein is most important
       if (fatRatio >= 0.136 && fatRatio <= 0.204) targetsMet += 20;      // Fat is second
       if (Math.abs(vitaminDRatio - 0.0059) <= 0.001) targetsMet += 10;   // Vitamin D is least important
+      if (calciumPhosphorusRatio >= 1.1 && calciumPhosphorusRatio <= 1.2) targetsMet += 30; // Ca:P ratio
+      else if ((calciumPhosphorusRatio >= 0.9 && calciumPhosphorusRatio <= 1.1) || 
+               (calciumPhosphorusRatio >= 1.2 && calciumPhosphorusRatio <= 1.5)) targetsMet += 20;
 
       if (targetsMet > maxTargetsMet) {
         maxTargetsMet = targetsMet;
@@ -796,6 +974,17 @@ function App() {
                           return ' (Too much)';
                         })()}
                       </li>
+                      <li>
+                        鈣磷比: {(nutrition.totalCalcium / nutrition.totalPhosphorus).toFixed(2)}:1
+                        {(() => {
+                          const ratio = nutrition.totalCalcium / nutrition.totalPhosphorus;
+                          if (ratio >= 1.1 && ratio <= 1.2) return ' (最佳比例)';
+                          if ((ratio >= 0.9 && ratio <= 1.1) || (ratio >= 1.2 && ratio <= 1.5)) return ' (可接受)';
+                          return ' (需要調整)';
+                        })()}
+                      </li>
+                      <li>鈣質: {Math.round(nutrition.totalCalcium)}mg</li>
+                      <li>磷質: {Math.round(nutrition.totalPhosphorus)}mg</li>
                       <li>水分含量: {nutrition.moistureContent.toFixed(1)}%</li>
                       <li>乾物質: {Math.round(nutrition.dryMatterWeight)}g</li>
                     </ul>
