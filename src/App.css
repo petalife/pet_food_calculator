@@ -289,3 +289,42 @@ h2 {
   font-size: 2.2rem;
   color: #000000;
 }
+
+.best-combination {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: #FFFFFF;
+  border: 2px solid #FFD13A;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem;
+  max-width: 300px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.best-combination h4 {
+  margin: 0 0 0.5rem 0;
+  color: #000000;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.best-combination ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  list-style-type: none;
+}
+
+.best-combination li {
+  margin-bottom: 0.3rem;
+  color: #333333;
+}
+
+.best-combination strong {
+  color: #000000;
+  font-weight: bold;
+}

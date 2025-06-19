@@ -1013,6 +1013,15 @@ function App() {
       <div className="company-icon">
         <img src="/company-icon.jpg" alt="Company Logo" />
       </div>
+      <div className="best-combination">
+        <h4>Best Combination:</h4>
+        <ul>
+          <li><strong>Meats:</strong> Sardine, Turkey</li>
+          <li><strong>Carbons:</strong> Rice, Sweet potato</li>
+          <li><strong>Vegetables:</strong> Kale, Spinach</li>
+          <li><strong>Others:</strong> Cheese, Plain yogurt</li>
+        </ul>
+      </div>
       <h2>生成鮮食譜</h2>
       <form onSubmit={handleSubmit} className="pet-form">
         <label>
