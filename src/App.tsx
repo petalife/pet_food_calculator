@@ -1068,7 +1068,7 @@ function App() {
                     }
                   >
                     <img 
-                      src={`/src/assets/icons/${item.toLowerCase().replace(/\s+/g, '-')}.png`} 
+                      src={`/icons/${item.toLowerCase().replace(/\s+/g, '-')}.png`} 
                       alt={item}
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
