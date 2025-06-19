@@ -925,9 +925,6 @@ function App() {
                       <span className="ingredient-calories">
                         ({INGREDIENT_ENERGY[item]} kcal/100g)
                       </span>
-                      <span className="ingredient-nutrition">
-                        (蛋白質: {INGREDIENT_PROTEIN[item]}g/100g, 維生素D: {INGREDIENT_VITAMIN_D[item]}IU/100g)
-                      </span>
                     </li>
                   ))
                 )}
@@ -942,7 +939,7 @@ function App() {
                     <ul>
                       <li>總重量: {Math.round(nutrition.totalWeight)}g</li>
                       <li>
-                        蛋白質: {Math.round(nutrition.totalProtein)}g / 目標: {Math.round(nutrition.targetProtein)}g (30% 總重量)
+                        蛋白質: {Math.round(nutrition.totalProtein)}g / 目標: {Math.round(nutrition.targetProtein)}g (30% 總DM重量)
                         {(() => {
                           const ratio = nutrition.totalProtein / nutrition.targetProtein;
                           if (ratio < 0.5) return ' (Too less)';
@@ -953,7 +950,7 @@ function App() {
                         })()}
                       </li>
                       <li>
-                        脂肪: {Math.round(nutrition.totalFat)}g / 目標: {Math.round(nutrition.targetFat)}g (17% 總重量)
+                        脂肪: {Math.round(nutrition.totalFat)}g / 目標: {Math.round(nutrition.targetFat)}g (17% 總DM重量)
                         {(() => {
                           const ratio = nutrition.totalFat / nutrition.targetFat;
                           if (ratio < 0.5) return ' (Too less)';
@@ -983,16 +980,16 @@ function App() {
                           return ' (需要調整)';
                         })()}
                       </li>
-                      <li>鈣質: {Math.round(nutrition.totalCalcium)}mg</li>
-                      <li>磷質: {Math.round(nutrition.totalPhosphorus)}mg</li>
-                      <li>
-                        建議蛋殼粉用量: {(() => {
+                      <li style={{fontWeight: 'bold', color: '#ff9800'}}>
+                        ★★★ 建議蛋殼粉用量: {(() => {
                           const requiredCa = nutrition.totalPhosphorus * 1.2;
                           const extraCa = requiredCa - nutrition.totalCalcium;
                           const eggShellGrams = extraCa > 0 ? (extraCa / 400).toFixed(1) : '0';
                           return eggShellGrams + 'g';
                         })()} (使Ca:P=1.2:1)
                       </li>
+                      <li>鈣質: {Math.round(nutrition.totalCalcium)}mg</li>
+                      <li>磷質: {Math.round(nutrition.totalPhosphorus)}mg</li>
                       <li>水分含量: {nutrition.moistureContent.toFixed(1)}%</li>
                       <li>乾物質: {Math.round(nutrition.dryMatterWeight)}g</li>
                     </ul>
