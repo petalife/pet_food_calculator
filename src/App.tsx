@@ -531,7 +531,7 @@ const INGREDIENT_PHOSPHORUS: IngredientNutrition = {
   'Blueberry': 12,
   'Chia seed': 860,
   'Flaxseed': 642,
-  'Coconut oil': 0
+  'Coconut oil': 1
 };
 
 const INGREDIENTS = {
@@ -985,6 +985,14 @@ function App() {
                       </li>
                       <li>鈣質: {Math.round(nutrition.totalCalcium)}mg</li>
                       <li>磷質: {Math.round(nutrition.totalPhosphorus)}mg</li>
+                      <li>
+                        建議蛋殼粉用量: {(() => {
+                          const requiredCa = nutrition.totalPhosphorus * 1.2;
+                          const extraCa = requiredCa - nutrition.totalCalcium;
+                          const eggShellGrams = extraCa > 0 ? (extraCa / 400).toFixed(1) : '0';
+                          return eggShellGrams + 'g';
+                        })()} (使Ca:P=1.2:1)
+                      </li>
                       <li>水分含量: {nutrition.moistureContent.toFixed(1)}%</li>
                       <li>乾物質: {Math.round(nutrition.dryMatterWeight)}g</li>
                     </ul>
