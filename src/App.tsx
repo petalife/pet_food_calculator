@@ -979,7 +979,11 @@ function App() {
                           if ((ratio >= 0.9 && ratio <= 1.1) || (ratio >= 1.2 && ratio <= 1.5)) return ' (可接受)';
                           return ' (需要調整)';
                         })()}
-                      </li>
+                      </li>                     
+                      <li>鈣質: {Math.round(nutrition.totalCalcium)}mg</li>
+                      <li>磷質: {Math.round(nutrition.totalPhosphorus)}mg</li>
+                      <li>水分含量: {nutrition.moistureContent.toFixed(1)}%</li>
+                      <li>乾物質: {Math.round(nutrition.dryMatterWeight)}g</li>
                       <li style={{fontWeight: 'bold', color: '#ff9800'}}>
                         ★★★ 建議蛋殼粉用量: {(() => {
                           const requiredCa = nutrition.totalPhosphorus * 1.2;
@@ -988,10 +992,6 @@ function App() {
                           return eggShellGrams + 'g';
                         })()} (使Ca:P=1.2:1)
                       </li>
-                      <li>鈣質: {Math.round(nutrition.totalCalcium)}mg</li>
-                      <li>磷質: {Math.round(nutrition.totalPhosphorus)}mg</li>
-                      <li>水分含量: {nutrition.moistureContent.toFixed(1)}%</li>
-                      <li>乾物質: {Math.round(nutrition.dryMatterWeight)}g</li>
                     </ul>
                   );
                 })()}
