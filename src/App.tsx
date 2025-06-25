@@ -1002,13 +1002,20 @@ function App() {
         "temperature": 0
       };
 
-      // Using your exact Postman URL and headers
+      // Check if API key is available in environment variables
+      const apiKey = import.meta.env.VITE_XAI_API_KEY;
+      
+      if (!apiKey) {
+        setCookingAdvice('API功能需要配置環境變數。\n\n基本烹飪建議：\n1. 所有肉類必須完全煮熟\n2. 蔬菜可輕微蒸煮保留營養\n3. 避免使用對寵物有害的調味料\n4. 確保食物溫度適中再餵食\n5. 新鮮製作，避免長時間保存\n\n請參考 SECURITY.md 了解如何安全配置 API 金鑰。');
+        return;
+      }
+
+      // Make API call with environment variable
       const response = await fetch('https://api.x.ai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer xai-nR1CDU5NFfejm96sDEyFJIt4XVCTC4ZVDsCdUB5InOv1y2saWNXy1FA7cW104Clmklz7Aye5wBl4Ap8o',
-          // Note: Cookie header not needed for fetch from browser, browser handles cookies automatically
+          'Authorization': `Bearer ${apiKey}`,
         },
         body: JSON.stringify(requestBody)
       });
@@ -1076,7 +1083,7 @@ function App() {
       setLoadingDuration(prev => {
         if (prev >= 5) {
           clearInterval(interval);
-          setStep('result');
+    setStep('result');
           return 0;
         }
         return prev + 1;
@@ -1353,12 +1360,12 @@ function App() {
         </div>
       </div>
       
-      <div className="app-container">
-        <div className="company-icon">
-          <img src="/company-icon.jpg" alt="Company Logo" />
-        </div>
-        <h2>生成鮮食譜</h2>
-        <form onSubmit={handleSubmit} className="pet-form">
+    <div className="app-container">
+      <div className="company-icon">
+        <img src="/company-icon.jpg" alt="Company Logo" />
+      </div>
+      <h2>生成鮮食譜</h2>
+      <form onSubmit={handleSubmit} className="pet-form">
         <label>
           1) 寵物名稱：
           <input
