@@ -81,7 +81,8 @@ const INGREDIENT_ENERGY: IngredientEnergy = {
   'Blueberry': 57,
   'Chia seed': 486,
   'Flaxseed': 534,
-  'Coconut oil': 892
+  'Coconut oil': 892,
+  'Egg shell': 0
 };
 
 // Add protein values for each ingredient (g/100g)
@@ -156,7 +157,8 @@ const INGREDIENT_PROTEIN: IngredientNutrition = {
   'Blueberry': 0.74,
   'Chia seed': 16.5,
   'Flaxseed': 18.3,
-  'Coconut oil': 0.0
+  'Coconut oil': 0.0,
+  'Egg shell': 0.0
 };
 
 // Add vitamin D values for each ingredient (IU/100g)
@@ -231,7 +233,8 @@ const INGREDIENT_VITAMIN_D: IngredientNutrition = {
   'Blueberry': 0,
   'Chia seed': 0,
   'Flaxseed': 0,
-  'Coconut oil': 0
+  'Coconut oil': 0,
+  'Egg shell': 0
 };
 
 // Add fat values for each ingredient (g/100g)
@@ -306,7 +309,8 @@ const INGREDIENT_FAT: IngredientNutrition = {
   'Blueberry': 0.33,
   'Chia seed': 30.7,
   'Flaxseed': 42.2,
-  'Coconut oil': 99.1
+  'Coconut oil': 99.1,
+  'Egg shell': 0.0
 };
 
 // Add water values for each ingredient (g/100g)
@@ -381,7 +385,8 @@ const INGREDIENT_WATER: IngredientNutrition = {
   'Blueberry': 84.2,
   'Chia seed': 5.8,
   'Flaxseed': 6.96,
-  'Coconut oil': 0.03
+  'Coconut oil': 0.03,
+  'Egg shell': 0.0
 };
 
 // Add calcium values for each ingredient (mg/100g)
@@ -456,7 +461,8 @@ const INGREDIENT_CALCIUM: IngredientNutrition = {
   'Blueberry': 6,
   'Chia seed': 631,
   'Flaxseed': 255,
-  'Coconut oil': 1
+  'Coconut oil': 1,
+  'Egg shell': 40000
 };
 
 // Add phosphorus values for each ingredient (mg/100g)
@@ -531,7 +537,8 @@ const INGREDIENT_PHOSPHORUS: IngredientNutrition = {
   'Blueberry': 12,
   'Chia seed': 860,
   'Flaxseed': 642,
-  'Coconut oil': 1
+  'Coconut oil': 1,
+  'Egg shell': 0
 };
 
 const INGREDIENTS = {
@@ -549,7 +556,7 @@ const INGREDIENTS = {
     'Sweet pepper', 'Tomato', 'Eggplant'
   ],
   others: [
-    'Egg', 'Cheese', 'Plain yogurt', 'Peanut butter', 'Strawberry', 'Blueberry', 'Chia seed', 'Flaxseed', 'Coconut oil'
+    'Egg', 'Cheese', 'Plain yogurt', 'Peanut butter', 'Strawberry', 'Blueberry', 'Chia seed', 'Flaxseed', 'Coconut oil', 'Egg shell'
   ],
   all: [
     // All ingredients combined in the same order as Google Sheet
@@ -560,12 +567,97 @@ const INGREDIENTS = {
     'Carrot', 'Peas', 'Brussel sprouts', 'Pumpkin', 'Spinach', 'Broccoli', 'Zucchini', 'Green bean',
     'Cauliflower', 'Beet', 'Kale', 'Cucumber', 'Squash', 'Parsnip', 'Celery',
     'Sweet pepper', 'Tomato', 'Eggplant',
-    'Egg', 'Cheese', 'Plain yogurt', 'Peanut butter', 'Strawberry', 'Blueberry', 'Chia seed', 'Flaxseed', 'Coconut oil'
+    'Egg', 'Cheese', 'Plain yogurt', 'Peanut butter', 'Strawberry', 'Blueberry', 'Chia seed', 'Flaxseed', 'Coconut oil', 'Egg shell'
+  ]
+};
+
+// Add simple recipe suggestions with advantages
+const SIMPLE_SUGGESTIONS = {
+  dog: [
+    { 
+      meats: ["Mackerel", "Sardine"], 
+      carbons: ["Oat", "Quinoa"], 
+      vegetables: ["Spinach"], 
+      others: ["Cheese"],
+      advantage: "Optimal Protein & High Vitamin D"
+    },
+    { 
+      meats: ["Chicken heart", "Turkey"], 
+      carbons: ["Lentils"], 
+      vegetables: ["Kale", "Peas"], 
+      others: ["Chia seed", "Flaxseed"],
+      advantage: "Max Protein & Healthy Fats"
+    },
+    { 
+      meats: ["Herring", "Tuna"], 
+      carbons: ["Chickpeas", "Buckwheat"], 
+      vegetables: ["Broccoli"], 
+      others: ["Cheese", "Plain yogurt"],
+      advantage: "High Vitamin D & Balanced"
+    },
+    { 
+      meats: ["Sardine", "Chicken heart"], 
+      carbons: ["Oat"], 
+      vegetables: ["Spinach", "Kale"], 
+      others: ["Peanut butter"],
+      advantage: "Protein Rich & Vitamin D"
+    },
+    { 
+      meats: ["Mackerel", "Turkey", "Cod"], 
+      carbons: ["Quinoa"], 
+      vegetables: ["Peas"], 
+      others: ["Chia seed", "Cheese"],
+      advantage: "Triple Protein & Vitamin D"
+    }
+  ],
+  cat: [
+    { 
+      meats: ["Tuna", "Sardine"], 
+      carbons: ["Lentils"], 
+      vegetables: ["Spinach"], 
+      others: ["Cheese", "Flaxseed"],
+      advantage: "High Protein & Vitamin D"
+    },
+    { 
+      meats: ["Mackerel", "Chicken heart"], 
+      carbons: ["Chickpeas", "Oat"], 
+      vegetables: ["Kale"], 
+      others: ["Peanut butter"],
+      advantage: "Max Protein & Fat Balance"
+    },
+    { 
+      meats: ["Herring", "Turkey"], 
+      carbons: ["Quinoa"], 
+      vegetables: ["Peas", "Broccoli"], 
+      others: ["Cheese", "Chia seed"],
+      advantage: "Vitamin D Rich & Complete"
+    },
+    { 
+      meats: ["Sardine", "Tuna", "Cod"], 
+      carbons: ["Lentils"], 
+      vegetables: ["Spinach"], 
+      others: ["Flaxseed"],
+      advantage: "Triple Fish & Optimal Ratios"
+    },
+    { 
+      meats: ["Chicken heart", "Mackerel"], 
+      carbons: ["Oat", "Buckwheat"], 
+      vegetables: ["Kale"], 
+      others: ["Cheese", "Peanut butter"],
+      advantage: "Organ Meat & High Fat"
+    }
   ]
 };
 
 const GROUPS = ['meats', 'carbons', 'vegetables', 'others'] as const;
 type Group = typeof GROUPS[number];
+
+// Cooking method calorie adjustments
+const COOKING_METHOD_MULTIPLIERS = {
+  'pan-fried': 0.8,   // calories * 0.8
+  'steamed': 1.0,     // calories * 1 (no change)
+  'oven': 0.95        // calories * 0.95
+};
 
 const calculateNutritionalValues = (ingredientAmounts: { [key: string]: number }) => {
   // Calculate total weight of all ingredients
@@ -851,18 +943,107 @@ const calculateIngredientAmounts = (calories: number, selectedIngredients: { [K 
 };
 
 function App() {
-  const [step, setStep] = useState<'form' | 'result'>('form');
+  const [step, setStep] = useState<'form' | 'loading' | 'result'>('form');
+  const [loadingDuration, setLoadingDuration] = useState(0);
+  const [petName, setPetName] = useState('');
+  const [petType, setPetType] = useState<'cat' | 'dog'>('dog');
+  const [age, setAge] = useState<'0-4months' | '4-12months' | '1-5year' | '5-10year' | '10-15year' | '15-20year'>('1-5year');
+  const [neutered, setNeutered] = useState<'yes' | 'no'>('no');
   const [weight, setWeight] = useState('');
+  const [cookingMethod, setCookingMethod] = useState<'pan-fried' | 'steamed' | 'oven'>('steamed');
   const [selected, setSelected] = useState<{ [K in Group]: string[] }>({
     meats: [],
     carbons: [],
     vegetables: [],
     others: [],
   });
+  const [cookingAdvice, setCookingAdvice] = useState<string>('');
+  const [isLoadingAdvice, setIsLoadingAdvice] = useState(false);
 
   const isSelectionValid = GROUPS.every(
     (group) => selected[group].length >= 1 && selected[group].length <= 3
   );
+
+  const isWeightValid = () => {
+    const weightNum = parseFloat(weight);
+    return !isNaN(weightNum) && weightNum > 0;
+  };
+
+  const isFormValid = isSelectionValid && isWeightValid();
+
+  // Grok API function
+  const callGrokAPI = async (ingredients: string[], cookingMethod: string, petType: string) => {
+    setIsLoadingAdvice(true);
+    setCookingAdvice('');
+    
+    try {
+      // Prepare the ingredient list
+      const allIngredients = ingredients.join(', ');
+      
+      const cookingMethodText = cookingMethod === 'pan-fried' ? 'pan-fried' : 
+                               cookingMethod === 'steamed' ? 'steamed' : 'oven';
+      
+      const petTypeText = petType === 'dog' ? 'dog' : 'cat';
+      
+      // Your exact JSON structure from Postman
+      const requestBody = {
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are an experienced vet. You are going to give suggestions for pet with specific informantion of how to cook pet food with the given ingredients well in one of the following methods: steamed, oven or pan-fried."
+          },
+          {
+            "role": "user",
+            "content": `Please provide detailed cooking instructions for a ${petTypeText} using these ingredients: ${allIngredients}. The cooking method should be ${cookingMethodText}. Please include: 1) Step-by-step cooking instructions 2) Food safety tips 3) Nutrition preservation tips 4) Portion guidelines. Please respond in Traditional Chinese within 150 words.`
+          }
+        ],
+        "model": "grok-3-latest",
+        "stream": false,
+        "temperature": 0
+      };
+
+      // Using your exact Postman URL and headers
+      const response = await fetch('https://api.x.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer xai-nR1CDU5NFfejm96sDEyFJIt4XVCTC4ZVDsCdUB5InOv1y2saWNXy1FA7cW104Clmklz7Aye5wBl4Ap8o',
+          // Note: Cookie header not needed for fetch from browser, browser handles cookies automatically
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      // Extract the AI response from the API response structure
+      if (data.choices && data.choices[0] && data.choices[0].message) {
+        setCookingAdvice(data.choices[0].message.content);
+      } else {
+        setCookingAdvice('收到回應但格式不正確，請稍後再試。');
+      }
+      
+    } catch (error) {
+      console.error('Error calling Grok API:', error);
+      setCookingAdvice('抱歉，無法獲取烹飪建議。請檢查網路連接或稍後再試。\n\n錯誤詳情：' + (error as Error).message);
+    } finally {
+      setIsLoadingAdvice(false);
+    }
+  };
+
+  const handleGetCookingAdvice = () => {
+    const allSelectedIngredients = [
+      ...selected.meats,
+      ...selected.carbons,
+      ...selected.vegetables,
+      ...selected.others
+    ];
+    
+    callGrokAPI(allSelectedIngredients, cookingMethod, petType);
+  };
 
   const handleSelect = (group: Group, item: string) => {
     setSelected((prev) => {
@@ -876,36 +1057,111 @@ function App() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setStep('result');
+  const handleRecipeSelect = (recipe: any) => {
+    setSelected({
+      meats: recipe.meats,
+      carbons: recipe.carbons,
+      vegetables: recipe.vegetables,
+      others: recipe.others
+    });
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setStep('loading');
+    setLoadingDuration(0);
+    
+    // Simulate loading for 5 seconds
+    const interval = setInterval(() => {
+      setLoadingDuration(prev => {
+        if (prev >= 5) {
+          clearInterval(interval);
+          setStep('result');
+          return 0;
+        }
+        return prev + 1;
+      });
+    }, 1000);
+  };
+
+  if (step === 'loading') {
+    return (
+      <div className="loading-container">
+        <div className="loading-content">
+          <h2>準備中...</h2>
+          <div className="loading-message">
+            <p>{petName}的食譜正在準備中，請稍候...</p>
+            <div className="loading-timer">
+              <span>剩餘時間：{5 - loadingDuration} 秒</span>
+            </div>
+          </div>
+          <div className="loading-spinner"></div>
+        </div>
+      </div>
+    );
+  }
+
   if (step === 'result') {
-    let calories = null;
+    let baseCalories = null;
+    let adjustedCalories = null;
     const weightNum = parseFloat(weight);
     if (!isNaN(weightNum) && weightNum > 0) {
-      calories = Math.round(70 * Math.pow(weightNum, 0.75));
+      // Calculate RER (Resting Energy Requirement)
+      const rer = Math.round(70 * Math.pow(weightNum, 0.75));
+      
+      // Calculate age and life stage multiplier
+      let lifeStageMultiplier = 1;
+      
+      if (petType === 'dog') {
+        if (age === '0-4months') {
+          lifeStageMultiplier = 3;
+        } else if (age === '4-12months') {
+          lifeStageMultiplier = 2;
+        } else {
+          // For adult dogs (1+ years)
+          lifeStageMultiplier = neutered === 'yes' ? 1.6 : 1.8;
+        }
+      } else if (petType === 'cat') {
+        if (age === '0-4months' || age === '4-12months') {
+          lifeStageMultiplier = 2.5;
+        } else {
+          // For adult cats (1+ years)
+          lifeStageMultiplier = neutered === 'yes' ? 1.2 : 1.4;
+        }
+      }
+      
+      baseCalories = Math.round(rer * lifeStageMultiplier);
+      adjustedCalories = Math.round(baseCalories * COOKING_METHOD_MULTIPLIERS[cookingMethod]);
     }
 
-    const allocations = calories
+    const allocations = adjustedCalories
       ? {
-          meats: Math.round(calories * 0.5),
-          carbons: Math.round(calories * 0.2),
-          vegetables: Math.round(calories * 0.15),
-          others: Math.round(calories * 0.15),
+          meats: Math.round(adjustedCalories * 0.5),
+          carbons: Math.round(adjustedCalories * 0.2),
+          vegetables: Math.round(adjustedCalories * 0.15),
+          others: Math.round(adjustedCalories * 0.15),
         }
       : { meats: 0, carbons: 0, vegetables: 0, others: 0 };
 
-    const ingredientAmounts = calories ? calculateIngredientAmounts(calories, selected) : {};
+    const ingredientAmounts = adjustedCalories ? calculateIngredientAmounts(adjustedCalories, selected) : {};
 
     return (
       <div className="result-container">
         <h2>結果</h2>
-        <p>寵物體重：{weight} kg</p>
-        {calories !== null && (
+        <div className="pet-info">
+          <h3>寵物資訊：</h3>
+          <ul>
+            <li><strong>名稱：</strong>{petName}</li>
+            <li><strong>類型：</strong>{petType === 'dog' ? '狗' : '貓'}</li>
+            <li><strong>年齡：</strong>{age}</li>
+            <li><strong>結紮狀態：</strong>{neutered === 'yes' ? '是' : '否'}</li>
+            <li><strong>體重：</strong>{weight} kg</li>
+            <li><strong>烹飪方式：</strong>{cookingMethod === 'pan-fried' ? '煎炒' : cookingMethod === 'steamed' ? '蒸煮' : '烤箱'}</li>
+          </ul>
+        </div>
+        {adjustedCalories !== null && (
           <>
-            <p>建議每日所需熱量：<strong>{calories}</strong> kcal</p>
+            <p>建議每日所需熱量：<strong>{baseCalories}</strong> kcal</p>
             <div className="calorie-breakdown">
               <h3>熱量分配：</h3>
               <ul>
@@ -930,7 +1186,7 @@ function App() {
                 )}
               </ul>
             </div>
-            {calories !== null && (
+            {adjustedCalories !== null && (
               <div className="nutritional-analysis">
                 <h3>營養分析：</h3>
                 {(() => {
@@ -999,9 +1255,51 @@ function App() {
             )}
           </>
         )}
+        
+        {/* Cooking Advice Section */}
+        <div className="cooking-advice-section">
+          <h3>AI 烹飪建議：</h3>
+          <button 
+            onClick={handleGetCookingAdvice}
+            disabled={isLoadingAdvice}
+            className="cooking-advice-btn"
+            style={{
+              backgroundColor: isLoadingAdvice ? '#cccccc' : '#4CAF50',
+              color: 'white',
+              padding: '10px 20px',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: isLoadingAdvice ? 'not-allowed' : 'pointer',
+              marginBottom: '10px'
+            }}
+          >
+            {isLoadingAdvice ? '獲取建議中...' : '獲取AI烹飪建議'}
+          </button>
+          
+          {cookingAdvice && (
+            <div className="cooking-advice-content" style={{
+              backgroundColor: '#f9f9f9',
+              padding: '15px',
+              borderRadius: '4px',
+              borderLeft: '4px solid #4CAF50',
+              marginTop: '10px'
+            }}>
+              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', margin: 0 }}>
+                {cookingAdvice}
+              </pre>
+            </div>
+          )}
+        </div>
+        
         <button onClick={() => {
           setStep('form');
+          setLoadingDuration(0);
+          setPetName('');
+          setPetType('dog');
+          setAge('1-5year');
+          setNeutered('no');
           setWeight('');
+          setCookingMethod('steamed');
           setSelected({
             meats: [],
             carbons: [],
@@ -1014,23 +1312,102 @@ function App() {
   }
 
   return (
-    <div className="app-container">
-      <div className="company-icon">
-        <img src="/company-icon.jpg" alt="Company Logo" />
+    <div className="app-wrapper">
+      <div className="dog-suggestions">
+        <h4>Dog Suggestions:</h4>
+        <div className="suggestions-list">
+          {SIMPLE_SUGGESTIONS.dog.map((recipe, index) => (
+            <div key={index} className="suggestion-item">
+              <div className="suggestion-advantage">
+                {recipe.advantage}
+              </div>
+              <button 
+                className="use-btn"
+                onClick={() => handleRecipeSelect(recipe)}
+                type="button"
+              >
+                Use
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="best-combination">
-        <h4>Best Combination:</h4>
-        <ul>
-          <li><strong>Meats:</strong> Sardine, Turkey</li>
-          <li><strong>Carbons:</strong> Rice, Sweet potato</li>
-          <li><strong>Vegetables:</strong> Kale, Spinach</li>
-          <li><strong>Others:</strong> Cheese, Plain yogurt</li>
-        </ul>
+      
+      <div className="cat-suggestions">
+        <h4>Cat Suggestions:</h4>
+        <div className="suggestions-list">
+          {SIMPLE_SUGGESTIONS.cat.map((recipe, index) => (
+            <div key={index} className="suggestion-item">
+              <div className="suggestion-advantage">
+                {recipe.advantage}
+              </div>
+              <button 
+                className="use-btn"
+                onClick={() => handleRecipeSelect(recipe)}
+                type="button"
+              >
+                Use
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
-      <h2>生成鮮食譜</h2>
-      <form onSubmit={handleSubmit} className="pet-form">
+      
+      <div className="app-container">
+        <div className="company-icon">
+          <img src="/company-icon.jpg" alt="Company Logo" />
+        </div>
+        <h2>生成鮮食譜</h2>
+        <form onSubmit={handleSubmit} className="pet-form">
         <label>
-          1) 請輸入寵物體重：
+          1) 寵物名稱：
+          <input
+            type="text"
+            value={petName}
+            onChange={(e) => setPetName(e.target.value)}
+            placeholder="例如：小白"
+            required
+          />
+        </label>
+        <label>
+          2) 寵物類型：
+          <select
+            value={petType}
+            onChange={(e) => setPetType(e.target.value as 'cat' | 'dog')}
+            required
+          >
+            <option value="dog">狗</option>
+            <option value="cat">貓</option>
+          </select>
+        </label>
+        <label>
+          3) 年齡：
+          <select
+            value={age}
+            onChange={(e) => setAge(e.target.value as '0-4months' | '4-12months' | '1-5year' | '5-10year' | '10-15year' | '15-20year')}
+            required
+          >
+            <option value="0-4months">0-4個月</option>
+            <option value="4-12months">4-12個月</option>
+            <option value="1-5year">1-5歲</option>
+            <option value="5-10year">5-10歲</option>
+            <option value="10-15year">10-15歲</option>
+            <option value="15-20year">15-20歲</option>
+          </select>
+        </label>
+        <label>
+          4) 是否結紮：
+          <select
+            value={neutered}
+            onChange={(e) => setNeutered(e.target.value as 'yes' | 'no')}
+            required
+          >
+            <option value="no">否</option>
+            <option value="yes">是</option>
+          </select>
+        </label>
+        <label>
+          5) 請輸入寵物體重：
           <input
             type="text"
             value={weight}
@@ -1040,8 +1417,20 @@ function App() {
           />
           <span className="unit">kg</span>
         </label>
+        <label>
+          6) 烹飪方式：
+          <select
+            value={cookingMethod}
+            onChange={(e) => setCookingMethod(e.target.value as 'pan-fried' | 'steamed' | 'oven')}
+            required
+          >
+            <option value="steamed">蒸煮</option>
+            <option value="pan-fried">煎炒</option>
+            <option value="oven">烤箱</option>
+          </select>
+        </label>
         <div className="ingredient-section">
-          <p>2) 請選擇想包含的食材：</p>
+          <p>7) 請選擇想包含的食材：</p>
           {GROUPS.map((group) => (
             <div key={group} className="ingredient-group">
               <strong>
@@ -1083,14 +1472,20 @@ function App() {
             請為每一類選擇1至3種食材
           </div>
         )}
+        {!isWeightValid() && weight !== '' && (
+          <div style={{ color: 'red', marginBottom: '1em' }}>
+            請輸入有效的體重數字
+          </div>
+        )}
         <button
           type="submit"
           className="submit-btn"
-          disabled={!isSelectionValid}
+          disabled={!isFormValid}
         >
           提交
         </button>
       </form>
+      </div>
     </div>
   );
 }
