@@ -16,12 +16,12 @@ The X.AI API key was accidentally exposed in the source code and has been detect
 
 1. Create a `.env` file in your project root (this file should NOT be committed):
 ```
-VITE_XAI_API_KEY=your_actual_api_key_here
+VITE_GEMINI_API_KEY=your_actual_api_key_here
 ```
 
 2. Update your code to use environment variables:
 ```javascript
-const apiKey = import.meta.env.VITE_XAI_API_KEY;
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 ```
 
 3. For production deployment on AWS:

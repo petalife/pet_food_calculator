@@ -971,71 +971,42 @@ function App() {
 
   const isFormValid = isSelectionValid && isWeightValid();
 
-  // Grok API function
-  const callGrokAPI = async (ingredients: string[], cookingMethod: string, petType: string) => {
+  // Backend API function (secure)
+  const callBackendAPI = async (ingredients: string[], cookingMethod: string, petType: string) => {
     setIsLoadingAdvice(true);
     setCookingAdvice('');
     
     try {
-      // Prepare the ingredient list
-      const allIngredients = ingredients.join(', ');
+      // Call our backend API (works in both development and production)
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
       
-      const cookingMethodText = cookingMethod === 'pan-fried' ? 'pan-fried' : 
-                               cookingMethod === 'steamed' ? 'steamed' : 'oven';
-      
-      const petTypeText = petType === 'dog' ? 'dog' : 'cat';
-      
-      // Your exact JSON structure from Postman
-      const requestBody = {
-        "messages": [
-          {
-            "role": "system",
-            "content": "You are an experienced vet. You are going to give suggestions for pet with specific informantion of how to cook pet food with the given ingredients well in one of the following methods: steamed, oven or pan-fried."
-          },
-          {
-            "role": "user",
-            "content": `Please provide detailed cooking instructions for a ${petTypeText} using these ingredients: ${allIngredients}. The cooking method should be ${cookingMethodText}. Please include: 1) Step-by-step cooking instructions 2) Food safety tips 3) Nutrition preservation tips 4) Portion guidelines. Please respond in Traditional Chinese within 150 words.`
-          }
-        ],
-        "model": "grok-3-latest",
-        "stream": false,
-        "temperature": 0
-      };
-
-      // Check if API key is available in environment variables
-      const apiKey = import.meta.env.VITE_XAI_API_KEY;
-      
-      if (!apiKey) {
-        setCookingAdvice('API功能需要配置環境變數。\n\n基本烹飪建議：\n1. 所有肉類必須完全煮熟\n2. 蔬菜可輕微蒸煮保留營養\n3. 避免使用對寵物有害的調味料\n4. 確保食物溫度適中再餵食\n5. 新鮮製作，避免長時間保存\n\n請參考 SECURITY.md 了解如何安全配置 API 金鑰。');
-        return;
-      }
-
-      // Make API call with environment variable
-      const response = await fetch('https://api.x.ai/v1/chat/completions', {
+      const response = await fetch(`${backendUrl}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify({
+          ingredients,
+          cookingMethod,
+          petType
+        })
       });
-
+      
       if (!response.ok) {
-        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+        throw new Error(`Backend request failed: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();
       
-      // Extract the AI response from the API response structure
-      if (data.choices && data.choices[0] && data.choices[0].message) {
-        setCookingAdvice(data.choices[0].message.content);
+      if (data.success) {
+        setCookingAdvice(data.advice);
       } else {
-        setCookingAdvice('收到回應但格式不正確，請稍後再試。');
+        setCookingAdvice(data.message || '收到回應但格式不正確，請稍後再試。');
       }
       
     } catch (error) {
-      console.error('Error calling Grok API:', error);
-      setCookingAdvice('抱歉，無法獲取烹飪建議。請檢查網路連接或稍後再試。\n\n錯誤詳情：' + (error as Error).message);
+      console.error('Error calling backend API:', error);
+      setCookingAdvice('抱歉，無法獲取烹飪建議。請確保後端服務器正在運行或稍後再試。\n\n錯誤詳情：' + (error as Error).message);
     } finally {
       setIsLoadingAdvice(false);
     }
@@ -1049,7 +1020,7 @@ function App() {
       ...selected.others
     ];
     
-    callGrokAPI(allSelectedIngredients, cookingMethod, petType);
+    callBackendAPI(allSelectedIngredients, cookingMethod, petType);
   };
 
   const handleSelect = (group: Group, item: string) => {
