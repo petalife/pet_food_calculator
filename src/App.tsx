@@ -9,9 +9,9 @@ type IngredientNutrition = {
   [key: string]: number;
 };
 
-// Add energy values for each ingredient (kcal/100g)
+// Energy values for each ingredient (kcal/100g)
 const INGREDIENT_ENERGY: IngredientEnergy = {
-  // Meats (in Google Sheet order)
+  // Meats
   'Chicken breast': 120,
   'Pork': 263,
   'Beef': 198,
@@ -977,10 +977,13 @@ function App() {
     setCookingAdvice('');
     
     try {
-      // Call our backend API (works in both development and production)
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
       
-      const response = await fetch(`${backendUrl}`, {
+      if (!backendUrl) {
+        throw new Error('Backend URL not configured');
+      }
+      
+      const response = await fetch(backendUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -993,7 +996,7 @@ function App() {
       });
       
       if (!response.ok) {
-        throw new Error(`Backend request failed: ${response.status} ${response.statusText}`);
+        throw new Error(`Request failed: ${response.status}`);
       }
 
       const data = await response.json();
@@ -1005,8 +1008,7 @@ function App() {
       }
       
     } catch (error) {
-      console.error('Error calling backend API:', error);
-      setCookingAdvice('抱歉，無法獲取烹飪建議。請確保後端服務器正在運行或稍後再試。\n\n錯誤詳情：' + (error as Error).message);
+      setCookingAdvice('抱歉，無法獲取烹飪建議。請稍後再試。');
     } finally {
       setIsLoadingAdvice(false);
     }
