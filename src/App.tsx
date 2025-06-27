@@ -81,8 +81,7 @@ const INGREDIENT_ENERGY: IngredientEnergy = {
   'Blueberry': 57,
   'Chia seed': 486,
   'Flaxseed': 534,
-  'Coconut oil': 892,
-  'Egg shell': 0
+  'Coconut oil': 892
 };
 
 // Add protein values for each ingredient (g/100g)
@@ -157,8 +156,7 @@ const INGREDIENT_PROTEIN: IngredientNutrition = {
   'Blueberry': 0.74,
   'Chia seed': 16.5,
   'Flaxseed': 18.3,
-  'Coconut oil': 0.0,
-  'Egg shell': 0.0
+  'Coconut oil': 0.0
 };
 
 // Add vitamin D values for each ingredient (IU/100g)
@@ -233,8 +231,8 @@ const INGREDIENT_VITAMIN_D: IngredientNutrition = {
   'Blueberry': 0,
   'Chia seed': 0,
   'Flaxseed': 0,
-  'Coconut oil': 0,
-  'Egg shell': 0
+  'Coconut oil': 0
+
 };
 
 // Add fat values for each ingredient (g/100g)
@@ -309,8 +307,7 @@ const INGREDIENT_FAT: IngredientNutrition = {
   'Blueberry': 0.33,
   'Chia seed': 30.7,
   'Flaxseed': 42.2,
-  'Coconut oil': 99.1,
-  'Egg shell': 0.0
+  'Coconut oil': 99.1
 };
 
 // Add water values for each ingredient (g/100g)
@@ -385,8 +382,7 @@ const INGREDIENT_WATER: IngredientNutrition = {
   'Blueberry': 84.2,
   'Chia seed': 5.8,
   'Flaxseed': 6.96,
-  'Coconut oil': 0.03,
-  'Egg shell': 0.0
+  'Coconut oil': 0.03
 };
 
 // Add calcium values for each ingredient (mg/100g)
@@ -461,8 +457,7 @@ const INGREDIENT_CALCIUM: IngredientNutrition = {
   'Blueberry': 6,
   'Chia seed': 631,
   'Flaxseed': 255,
-  'Coconut oil': 1,
-  'Egg shell': 40000
+  'Coconut oil': 1
 };
 
 // Add phosphorus values for each ingredient (mg/100g)
@@ -537,8 +532,7 @@ const INGREDIENT_PHOSPHORUS: IngredientNutrition = {
   'Blueberry': 12,
   'Chia seed': 860,
   'Flaxseed': 642,
-  'Coconut oil': 1,
-  'Egg shell': 0
+  'Coconut oil': 1
 };
 
 const INGREDIENTS = {
@@ -556,7 +550,7 @@ const INGREDIENTS = {
     'Sweet pepper', 'Tomato', 'Eggplant'
   ],
   others: [
-    'Egg', 'Cheese', 'Plain yogurt', 'Peanut butter', 'Strawberry', 'Blueberry', 'Chia seed', 'Flaxseed', 'Coconut oil', 'Egg shell'
+    'Egg', 'Cheese', 'Plain yogurt', 'Peanut butter', 'Strawberry', 'Blueberry', 'Chia seed', 'Flaxseed', 'Coconut oil'
   ],
   all: [
     // All ingredients combined in the same order as Google Sheet
@@ -567,7 +561,7 @@ const INGREDIENTS = {
     'Carrot', 'Peas', 'Brussel sprouts', 'Pumpkin', 'Spinach', 'Broccoli', 'Zucchini', 'Green bean',
     'Cauliflower', 'Beet', 'Kale', 'Cucumber', 'Squash', 'Parsnip', 'Celery',
     'Sweet pepper', 'Tomato', 'Eggplant',
-    'Egg', 'Cheese', 'Plain yogurt', 'Peanut butter', 'Strawberry', 'Blueberry', 'Chia seed', 'Flaxseed', 'Coconut oil', 'Egg shell'
+    'Egg', 'Cheese', 'Plain yogurt', 'Peanut butter', 'Strawberry', 'Blueberry', 'Chia seed', 'Flaxseed', 'Coconut oil'
   ]
 };
 
