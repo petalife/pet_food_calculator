@@ -370,13 +370,15 @@ h2 {
 }
 
 .company-icon {
-  width: 120px;
-  height: 120px;
+  width: auto;
+  height: auto;
+  max-width: 200px;
+  max-height: 120px;
   margin: 2rem auto 1.5rem auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
@@ -384,13 +386,15 @@ h2 {
   position: relative;
   background: white;
   border: 3px solid #FFD13A;
+  padding: 1rem;
 }
 
 .company-icon img {
-  width: 90%;
-  height: 90%;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  border-radius: 50%;
 }
 
 .result-container p {
@@ -633,14 +637,17 @@ h2 {
   
   /* Company icon smaller and centered */
   .company-icon {
-    width: 80px;
-    height: 80px;
+    max-width: 160px;
+    max-height: 80px;
     margin: 1rem auto;
+    padding: 0.8rem;
   }
   
   .company-icon img {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
   }
   
   /* Cooking advice responsive - moved to bottom on mobile */
@@ -724,14 +731,17 @@ h2 {
   }
   
   .company-icon {
-    width: 60px;
-    height: 60px;
+    max-width: 120px;
+    max-height: 60px;
     margin: 0.5rem auto;
+    padding: 0.5rem;
   }
   
   .company-icon img {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
   }
 }
 
@@ -765,9 +775,9 @@ h2 {
 
 .hamburger-line {
   width: 100%;
-  height: 3px;
+  height: 2px;
   background: #000000;
-  border-radius: 2px;
+  border-radius: 1px;
   transition: all 0.3s ease;
 }
 
