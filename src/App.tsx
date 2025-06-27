@@ -959,6 +959,7 @@ function App() {
   });
   const [cookingAdvice, setCookingAdvice] = useState<string>('');
   const [isLoadingAdvice, setIsLoadingAdvice] = useState(false);
+  const [showMobileSuggestions, setShowMobileSuggestions] = useState<boolean>(false);
 
   const isSelectionValid = GROUPS.every(
     (group) => selected[group].length >= 1 && selected[group].length <= 3
@@ -1415,6 +1416,13 @@ function App() {
         </label>
         <div className="ingredient-section">
           <p>7) 請選擇想包含的食材：</p>
+          <button 
+            type="button"
+            className="mobile-suggestions-btn"
+            onClick={() => setShowMobileSuggestions(!showMobileSuggestions)}
+          >
+            {showMobileSuggestions ? '隱藏食譜建議' : '查看食譜建議'}
+          </button>
           {GROUPS.map((group) => (
             <div key={group} className="ingredient-group">
               <strong>
@@ -1450,6 +1458,54 @@ function App() {
               </div>
             </div>
           ))}
+          {showMobileSuggestions && (
+            <div className="mobile-suggestions">
+              <div className="mobile-suggestion-group">
+                <h4>狗狗食譜建議：</h4>
+                <div className="mobile-suggestions-list">
+                  {SIMPLE_SUGGESTIONS.dog.map((recipe, index) => (
+                    <div key={index} className="mobile-suggestion-item">
+                      <div className="mobile-suggestion-advantage">
+                        {recipe.advantage}
+                      </div>
+                      <button 
+                        className="mobile-use-btn"
+                        onClick={() => {
+                          handleRecipeSelect(recipe);
+                          setShowMobileSuggestions(false);
+                        }}
+                        type="button"
+                      >
+                        使用此食譜
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="mobile-suggestion-group">
+                <h4>貓咪食譜建議：</h4>
+                <div className="mobile-suggestions-list">
+                  {SIMPLE_SUGGESTIONS.cat.map((recipe, index) => (
+                    <div key={index} className="mobile-suggestion-item">
+                      <div className="mobile-suggestion-advantage">
+                        {recipe.advantage}
+                      </div>
+                      <button 
+                        className="mobile-use-btn"
+                        onClick={() => {
+                          handleRecipeSelect(recipe);
+                          setShowMobileSuggestions(false);
+                        }}
+                        type="button"
+                      >
+                        使用此食譜
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         {!isSelectionValid && (
           <div style={{ color: 'red', marginBottom: '1em' }}>

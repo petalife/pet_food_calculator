@@ -538,3 +538,268 @@ h2 {
   background-color: #333333 !important;
   transform: translateY(-1px);
 }
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  /* Hide side suggestions on mobile */
+  .dog-suggestions, .cat-suggestions {
+    display: none;
+  }
+  
+  /* App container adjustments */
+  .app-wrapper {
+    margin: 1rem auto 2rem auto;
+    padding: 0 1rem;
+  }
+  
+  .app-container, .result-container {
+    padding: 1.5rem 1rem 2rem 1rem;
+    margin: 0;
+    border-radius: 16px;
+  }
+  
+  /* Typography scaling */
+  h2 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+  
+  .pet-form label {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .ingredient-section p {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  
+  .ingredient-group strong {
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  /* Form elements responsive */
+  .pet-form input[type="text"], .pet-form select {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+  
+  /* Ingredient buttons smaller and responsive */
+  .ingredient-list {
+    gap: 0.3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .ingredient-list button {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+    margin: 0.1rem;
+    min-width: auto;
+    gap: 8px;
+    border-radius: 12px;
+  }
+  
+  .ingredient-list button i,
+  .ingredient-list button img {
+    font-size: 1.2rem;
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Submit button responsive */
+  .submit-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+  }
+  
+  /* Company icon smaller */
+  .company-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1rem;
+  }
+  
+  .company-icon img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  /* Cooking advice responsive */
+  .cooking-advice-section {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cooking-advice-section h3 {
+    font-size: 1.4rem;
+  }
+  
+  .cooking-advice-btn {
+    width: 100% !important;
+    padding: 1rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+  
+  /* Result container responsive */
+  .result-container h2 {
+    font-size: 1.6rem;
+  }
+  
+  .pet-info h3, .calorie-breakdown h3, .ingredient-amounts h3, .nutritional-analysis h3 {
+    font-size: 1.3rem;
+  }
+  
+  .pet-info li, .calorie-breakdown li, .ingredient-amounts li, .nutritional-analysis li {
+    font-size: 0.95rem;
+  }
+  
+  /* Loading screen responsive */
+  .loading-content h2 {
+    font-size: 1.6rem;
+  }
+  
+  .loading-message p {
+    font-size: 1rem;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .app-wrapper {
+    margin: 0.5rem auto 1rem auto;
+    padding: 0 0.5rem;
+  }
+  
+  .app-container, .result-container {
+    padding: 1rem 0.8rem 1.5rem 0.8rem;
+    border-radius: 12px;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  .pet-form label {
+    font-size: 1.2rem;
+  }
+  
+  .ingredient-section p {
+    font-size: 1.2rem;
+  }
+  
+  .ingredient-group strong {
+    font-size: 1.1rem;
+  }
+  
+  .ingredient-list button {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .company-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .company-icon img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Mobile suggestion button and containers */
+.mobile-suggestions-btn {
+  display: none;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: #000000;
+  color: #FFD13A;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background 0.2s;
+}
+
+.mobile-suggestions-btn:hover {
+  background: #333333;
+}
+
+.mobile-suggestions {
+  display: none;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(255, 209, 58, 0.95);
+  border-radius: 12px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.mobile-suggestion-group {
+  margin-bottom: 1.5rem;
+}
+
+.mobile-suggestion-group:last-child {
+  margin-bottom: 0;
+}
+
+.mobile-suggestion-group h4 {
+  margin: 0 0 1rem 0;
+  color: #000000;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.mobile-suggestions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.mobile-suggestion-item {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mobile-suggestion-advantage {
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+  color: #000000;
+}
+
+.mobile-use-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: #000000;
+  color: #FFD13A;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mobile-use-btn:hover {
+  background: #333333;
+}
+
+@media (max-width: 768px) {
+  .mobile-suggestions-btn {
+    display: block;
+  }
+  
+  .mobile-suggestions {
+    display: block;
+  }
+}
