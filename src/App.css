@@ -370,22 +370,24 @@ h2 {
 }
 
 .company-icon {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #FFFFFF;
-  padding: 1rem;
-  z-index: 1000;
-  width: 100%;
-  text-align: center;
+  width: 120px;
+  height: 120px;
+  margin: 2rem auto 1.5rem auto;
+  display: block;
+  border-radius: 50%;
+  overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+  position: relative;
+  background: white;
+  border: 3px solid #FFD13A;
 }
 
 .company-icon img {
-  max-height: 80px;
-  max-width: 200px;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .result-container p {
@@ -618,32 +620,40 @@ h2 {
     margin-top: 1rem;
   }
   
-  /* Company icon smaller */
+  /* Company icon smaller and centered */
   .company-icon {
     width: 80px;
     height: 80px;
-    margin-bottom: 1rem;
+    margin: 1rem auto;
   }
   
   .company-icon img {
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    height: 100%;
   }
   
-  /* Cooking advice responsive */
+  /* Cooking advice responsive - moved to bottom on mobile */
   .cooking-advice-section {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    order: 999; /* Move to bottom on mobile */
   }
   
   .cooking-advice-section h3 {
     font-size: 1.4rem;
+    text-align: center;
   }
   
   .cooking-advice-btn {
     width: 100% !important;
     padding: 1rem 1.5rem !important;
     font-size: 1rem !important;
+  }
+  
+  /* Ensure result container uses flexbox to allow ordering */
+  .result-container {
+    display: flex;
+    flex-direction: column;
   }
   
   /* Result container responsive */
@@ -705,11 +715,12 @@ h2 {
   .company-icon {
     width: 60px;
     height: 60px;
+    margin: 0.5rem auto;
   }
   
   .company-icon img {
-    width: 60px;
-    height: 60px;
+    width: 100%;
+    height: 100%;
   }
 }
 

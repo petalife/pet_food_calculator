@@ -1237,6 +1237,23 @@ function App() {
           </>
         )}
         
+        <button onClick={() => {
+          setStep('form');
+          setLoadingDuration(0);
+          setPetName('');
+          setPetType('dog');
+          setAge('1-5year');
+          setNeutered('no');
+          setWeight('');
+          setCookingMethod('steamed');
+          setSelected({
+            meats: [],
+            carbons: [],
+            vegetables: [],
+            others: [],
+          });
+        }}>返回</button>
+        
         {/* Cooking Advice Section */}
         <div className="cooking-advice-section">
           <h3>AI 烹飪建議：</h3>
@@ -1275,23 +1292,6 @@ function App() {
             </div>
           )}
         </div>
-        
-        <button onClick={() => {
-          setStep('form');
-          setLoadingDuration(0);
-          setPetName('');
-          setPetType('dog');
-          setAge('1-5year');
-          setNeutered('no');
-          setWeight('');
-          setCookingMethod('steamed');
-          setSelected({
-            meats: [],
-            carbons: [],
-            vegetables: [],
-            others: [],
-          });
-        }}>返回</button>
       </div>
     );
   }
@@ -1338,10 +1338,10 @@ function App() {
         </div>
       </div>
       
+    <div className="company-icon">
+      <img src="/company-icon.jpg" alt="Company Logo" />
+    </div>
     <div className="app-container">
-      <div className="company-icon">
-        <img src="/company-icon.jpg" alt="Company Logo" />
-      </div>
       <h2>生成鮮食譜</h2>
       <form onSubmit={handleSubmit} className="pet-form">
         <label>
