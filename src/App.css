@@ -588,6 +588,12 @@ h2 {
 
 /* Desktop centering - simple approach for PC */
 @media (min-width: 769px) {
+  body, #root {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100vh !important;
+  }
+  
   .app-wrapper {
     padding-top: 5vh !important;
     padding-bottom: 5vh !important;
@@ -934,6 +940,14 @@ h2 {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure hamburger doesn't affect main content layout */
+@media (min-width: 769px) {
+  .hamburger-menu {
+    position: fixed !important;
+    z-index: 1000 !important;
+  }
 }
 
 .hamburger-menu:hover {
