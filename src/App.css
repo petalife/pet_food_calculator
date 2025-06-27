@@ -587,16 +587,17 @@ h2 {
 }
 
 /* Desktop centering - simple approach for PC */
+/* Desktop styles */
 @media (min-width: 769px) {
-  body, #root {
-    margin: 0 !important;
-    padding: 0 !important;
-    height: 100vh !important;
+  .company-icon {
+    max-width: 200px;
+    max-height: 100px;
+    margin: 0 auto 1.5rem auto;
   }
   
-  .app-wrapper {
-    padding-top: 5vh !important;
-    padding-bottom: 5vh !important;
+  .app-container, .result-container {
+    max-width: 800px;
+    padding: 2rem 2rem 2.5rem 2rem;
   }
 }
 
