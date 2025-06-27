@@ -1259,23 +1259,6 @@ function App() {
           </>
         )}
         
-        <button onClick={() => {
-          setStep('form');
-          setLoadingDuration(0);
-          setPetName('');
-          setPetType('dog');
-          setAge('1-5year');
-          setNeutered('no');
-          setWeight('');
-          setCookingMethod('steamed');
-          setSelected({
-            meats: [],
-            carbons: [],
-            vegetables: [],
-            others: [],
-          });
-        }}>返回</button>
-        
         {/* Cooking Advice Section */}
         <div className="cooking-advice-section">
           <h3>AI 烹飪建議：</h3>
@@ -1314,6 +1297,41 @@ function App() {
             </div>
           )}
         </div>
+        
+        <button 
+          onClick={() => {
+            setStep('form');
+            setLoadingDuration(0);
+            setPetName('');
+            setPetType('dog');
+            setAge('1-5year');
+            setNeutered('no');
+            setWeight('');
+            setCookingMethod('steamed');
+            setSelected({
+              meats: [],
+              carbons: [],
+              vegetables: [],
+              others: [],
+            });
+          }}
+          className="go-back-btn"
+          style={{
+            width: '100%',
+            padding: '1rem 2rem',
+            backgroundColor: '#000000',
+            color: '#FFD13A',
+            border: 'none',
+            borderRadius: '12px',
+            fontSize: '1.2rem',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            marginTop: '2rem',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          返回
+        </button>
       </div>
     );
   }

@@ -748,7 +748,28 @@ h2 {
   }
   
   .pet-info li, .calorie-breakdown li, .ingredient-amounts li, .nutritional-analysis li {
-    font-size: 0.95rem;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  
+  /* Fix mobile result page font consistency */
+  .result-container p {
+    font-size: 1.2rem !important;
+  }
+  
+  .result-container p strong {
+    font-size: 1.3rem !important;
+  }
+  
+  /* Ingredient amounts section mobile */
+  .ingredient-amounts h3 {
+    font-size: 1.2rem !important;
+  }
+  
+  .ingredient-amounts li {
+    font-size: 1rem !important;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
   }
   
   /* Loading screen responsive */
@@ -758,6 +779,13 @@ h2 {
   
   .loading-message p {
     font-size: 1rem;
+  }
+  
+  /* Go back button mobile styling */
+  .go-back-btn {
+    font-size: 1rem !important;
+    padding: 0.8rem 1.5rem !important;
+    margin-top: 1.5rem !important;
   }
 }
 
@@ -819,6 +847,24 @@ h2 {
   .suggestions-sidebar {
     width: 250px;
     left: -270px;
+  }
+  
+  /* Extra small mobile font fixes */
+  .result-container p {
+    font-size: 1.1rem !important;
+  }
+  
+  .result-container p strong {
+    font-size: 1.2rem !important;
+  }
+  
+  .pet-info li, .calorie-breakdown li, .ingredient-amounts li, .nutritional-analysis li {
+    font-size: 0.9rem !important;
+  }
+  
+  .go-back-btn {
+    font-size: 0.9rem !important;
+    padding: 0.7rem 1.2rem !important;
   }
 }
 
