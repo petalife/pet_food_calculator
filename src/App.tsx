@@ -960,6 +960,28 @@ function App() {
   const [cookingAdvice, setCookingAdvice] = useState<string>('');
   const [isLoadingAdvice, setIsLoadingAdvice] = useState(false);
   const [showMobileSuggestions, setShowMobileSuggestions] = useState<boolean>(false);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+
+  // Close sidebar with Escape key
+  React.useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSidebarOpen(false);
+      }
+    };
+    
+    if (sidebarOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden'; // Prevent background scroll
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [sidebarOpen]);
 
   const isSelectionValid = GROUPS.every(
     (group) => selected[group].length >= 1 && selected[group].length <= 3
@@ -1298,43 +1320,70 @@ function App() {
 
   return (
     <div className="app-wrapper">
-      <div className="dog-suggestions">
-        <h4>Dog Suggestions:</h4>
-        <div className="suggestions-list">
-          {SIMPLE_SUGGESTIONS.dog.map((recipe, index) => (
-            <div key={index} className="suggestion-item">
-              <div className="suggestion-advantage">
-                {recipe.advantage}
-              </div>
-              <button 
-                className="use-btn"
-                onClick={() => handleRecipeSelect(recipe)}
-                type="button"
-              >
-                Use
-              </button>
-            </div>
-          ))}
+      {/* Hamburger Menu */}
+      <div 
+        className={`hamburger-menu ${sidebarOpen ? 'active' : ''}`}
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+      >
+        <div className="hamburger-icon">
+          <div className="hamburger-line"></div>
+          <div className="hamburger-line"></div>
+          <div className="hamburger-line"></div>
         </div>
       </div>
-      
-      <div className="cat-suggestions">
-        <h4>Cat Suggestions:</h4>
-        <div className="suggestions-list">
-          {SIMPLE_SUGGESTIONS.cat.map((recipe, index) => (
-            <div key={index} className="suggestion-item">
-              <div className="suggestion-advantage">
-                {recipe.advantage}
+
+      {/* Sidebar Overlay */}
+      <div 
+        className={`sidebar-overlay ${sidebarOpen ? 'active' : ''}`}
+        onClick={() => setSidebarOpen(false)}
+      ></div>
+
+      {/* Suggestions Sidebar */}
+      <div className={`suggestions-sidebar ${sidebarOpen ? 'open' : ''}`}>
+        <div className="sidebar-section">
+          <h4>狗狗食譜建議</h4>
+          <div className="sidebar-suggestions-list">
+            {SIMPLE_SUGGESTIONS.dog.map((recipe, index) => (
+              <div key={index} className="sidebar-suggestion-item">
+                <div className="sidebar-suggestion-advantage">
+                  {recipe.advantage}
+                </div>
+                <button 
+                  className="sidebar-use-btn"
+                  onClick={() => {
+                    handleRecipeSelect(recipe);
+                    setSidebarOpen(false);
+                  }}
+                  type="button"
+                >
+                  使用此食譜
+                </button>
               </div>
-              <button 
-                className="use-btn"
-                onClick={() => handleRecipeSelect(recipe)}
-                type="button"
-              >
-                Use
-              </button>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+        
+        <div className="sidebar-section">
+          <h4>貓咪食譜建議</h4>
+          <div className="sidebar-suggestions-list">
+            {SIMPLE_SUGGESTIONS.cat.map((recipe, index) => (
+              <div key={index} className="sidebar-suggestion-item">
+                <div className="sidebar-suggestion-advantage">
+                  {recipe.advantage}
+                </div>
+                <button 
+                  className="sidebar-use-btn"
+                  onClick={() => {
+                    handleRecipeSelect(recipe);
+                    setSidebarOpen(false);
+                  }}
+                  type="button"
+                >
+                  使用此食譜
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       
