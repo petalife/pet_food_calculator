@@ -520,3 +520,21 @@ h2 {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* Cooking Advice Section */
+.cooking-advice-section {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.cooking-advice-section h3 {
+  color: #000000;
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+.cooking-advice-btn:hover:not(:disabled) {
+  background-color: #333333 !important;
+  transform: translateY(-1px);
+}

@@ -1244,13 +1244,16 @@ function App() {
             disabled={isLoadingAdvice}
             className="cooking-advice-btn"
             style={{
-              backgroundColor: isLoadingAdvice ? '#cccccc' : '#4CAF50',
-              color: 'white',
-              padding: '10px 20px',
+              backgroundColor: isLoadingAdvice ? '#cccccc' : '#000000',
+              color: isLoadingAdvice ? '#666666' : '#FFD13A',
+              padding: '12px 24px',
               border: 'none',
-              borderRadius: '4px',
+              borderRadius: '12px',
               cursor: isLoadingAdvice ? 'not-allowed' : 'pointer',
-              marginBottom: '10px'
+              marginBottom: '15px',
+              fontWeight: 'bold',
+              fontSize: '1rem',
+              transition: 'all 0.2s ease'
             }}
           >
             {isLoadingAdvice ? '獲取建議中...' : '獲取AI烹飪建議'}
@@ -1258,13 +1261,14 @@ function App() {
           
           {cookingAdvice && (
             <div className="cooking-advice-content" style={{
-              backgroundColor: '#f9f9f9',
+              backgroundColor: 'rgba(255, 255, 255, 0.3)',
               padding: '15px',
-              borderRadius: '4px',
+              borderRadius: '12px',
               borderLeft: '4px solid #4CAF50',
-              marginTop: '10px'
+              marginTop: '10px',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
-              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', margin: 0 }}>
+              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', margin: 0, color: '#000000' }}>
                 {cookingAdvice}
               </pre>
             </div>
