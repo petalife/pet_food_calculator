@@ -1,25 +1,17 @@
 import json
 import os
-try:
-    import urllib3
-    http = urllib3.PoolManager()
-except ImportError:
-    # Fallback to built-in urllib
-    import urllib.request
-    import urllib.parse
-    http = None
+import urllib.request
+import urllib.parse
 
 def lambda_handler(event, context):
-    # Enable CORS headers
+    # Simple headers - Function URL handles CORS
     headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'OPTIONS,POST',
         'Content-Type': 'application/json'
     }
     
-    # Handle preflight OPTIONS request for both API Gateway and Function URL format
+    # Handle preflight OPTIONS request
     http_method = event.get('httpMethod') or event.get('requestContext', {}).get('http', {}).get('method')
+    
     if http_method == 'OPTIONS':
         return {
             'statusCode': 200,
@@ -39,7 +31,7 @@ def lambda_handler(event, context):
         }
     
     try:
-        # Parse request body - handle both API Gateway and Function URL format
+        # Parse request body
         raw_body = event.get('body', '{}')
         if event.get('isBase64Encoded'):
             import base64
@@ -101,24 +93,14 @@ Please provide detailed cooking instructions for a {pet_type_text} using these i
             'x-goog-api-key': api_key
         }
         
-        if http:  # urllib3 available
-            response = http.request(
-                'POST',
-                url,
-                body=json.dumps(request_body),
-                headers=headers_dict
-            )
-            if response.status != 200:
-                raise Exception(f'Gemini API request failed: {response.status} {response.reason}')
-            data = json.loads(response.data.decode('utf-8'))
-        else:  # Use built-in urllib
-            req = urllib.request.Request(
-                url, 
-                data=json.dumps(request_body).encode('utf-8'),
-                headers=headers_dict
-            )
-            with urllib.request.urlopen(req) as response:
-                data = json.loads(response.read().decode('utf-8'))
+        req = urllib.request.Request(
+            url, 
+            data=json.dumps(request_body).encode('utf-8'),
+            headers=headers_dict
+        )
+        
+        with urllib.request.urlopen(req) as response:
+            data = json.loads(response.read().decode('utf-8'))
         
         # Extract the AI response
         if (data.get('candidates') and 
@@ -147,13 +129,11 @@ Please provide detailed cooking instructions for a {pet_type_text} using these i
             }
             
     except Exception as error:
-        print(f'Error calling Gemini API: {str(error)}')
         return {
             'statusCode': 500,
             'headers': headers,
             'body': json.dumps({
                 'success': False,
-                'message': '抱歉，無法獲取烹飪建議。請稍後再試。',
-                'error': str(error)
+                'message': '抱歉，無法獲取烹飪建議。請稍後再試。'
             }, ensure_ascii=False)
         } 
