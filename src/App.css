@@ -586,9 +586,17 @@ h2 {
   transform: translateY(-1px);
 }
 
-/* Desktop centering - simple approach for PC */
 /* Desktop styles */
 @media (min-width: 769px) {
+  .app-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+  
   .company-icon {
     max-width: 200px;
     max-height: 100px;
@@ -598,6 +606,7 @@ h2 {
   .app-container, .result-container {
     max-width: 800px;
     padding: 2rem 2rem 2.5rem 2rem;
+    margin: 0 auto;
   }
 }
 
