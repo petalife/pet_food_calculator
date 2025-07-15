@@ -955,6 +955,12 @@ function App() {
   const [isLoadingAdvice, setIsLoadingAdvice] = useState(false);
   const [showMobileSuggestions, setShowMobileSuggestions] = useState<boolean>(false);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  
+  // Code verification states
+  const [codeVerified, setCodeVerified] = useState<boolean>(false);
+  const [userCode, setUserCode] = useState<string>('');
+  const [codeError, setCodeError] = useState<string>('');
+  const [isVerifyingCode, setIsVerifyingCode] = useState<boolean>(false);
 
   // Close sidebar with Escape key
   React.useEffect(() => {
@@ -1040,6 +1046,54 @@ function App() {
     ];
     
     callBackendAPI(allSelectedIngredients, cookingMethod, petType);
+  };
+
+  // Code verification function
+  const verifyCode = async () => {
+    if (!userCode.trim()) {
+      setCodeError('請輸入驗證碼');
+      return;
+    }
+
+    setIsVerifyingCode(true);
+    setCodeError('');
+    
+    try {
+      const verifyUrl = import.meta.env.VITE_VERIFY_CODE_URL;
+      
+      if (!verifyUrl) {
+        throw new Error('Verify code URL not configured');
+      }
+      
+      const response = await fetch(verifyUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          code: userCode.trim()
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Request failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setCodeVerified(true);
+        setCodeError('');
+        setUserCode('');
+      } else {
+        setCodeError(data.message || '驗證碼錯誤');
+      }
+      
+    } catch (error) {
+      setCodeError('驗證失敗，請稍後再試');
+    } finally {
+      setIsVerifyingCode(false);
+    }
   };
 
   const handleSelect = (group: Group, item: string) => {
@@ -1168,129 +1222,200 @@ function App() {
                 <li>Others: {allocations.others} kcal (15%)</li>
               </ul>
             </div>
-            <div className="ingredient-amounts">
-              <h3>所需食材份量：</h3>
-              <ul>
-                {GROUPS.map((group) =>
-                  selected[group].map((item) => (
-                    <li key={group + item}>
-                      {item}: {ingredientAmounts[item]}g
-                      <span className="ingredient-calories">
-                        ({INGREDIENT_ENERGY[item]} kcal/100g)
-                      </span>
-                    </li>
-                  ))
+            
+            {/* Code Verification Section */}
+            {!codeVerified && (
+              <div className="code-verification-section" style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                borderRadius: '12px',
+                padding: '1.5rem',
+                margin: '1.5rem 0',
+                textAlign: 'center',
+                border: '2px solid rgba(0, 0, 0, 0.1)'
+              }}>
+                <h3 style={{ color: '#000000', marginBottom: '1rem', fontSize: '1.4rem' }}>
+                  🔒 輸入驗證碼以查看食材份量、營養分析等詳細資訊
+                </h3>
+                <p style={{ color: '#666666', marginBottom: '1.5rem', fontSize: '1rem' }}>
+                  <span style={{ fontSize: '0.9rem', color: '#888888' }}>
+                    💡 驗證碼可從 Petalife 促銷產品中獲得
+                  </span>
+                </p>
+                <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <input
+                    type="text"
+                    value={userCode}
+                    onChange={(e) => setUserCode(e.target.value.toUpperCase())}
+                    placeholder="輸入8位數驗證碼"
+                    maxLength={8}
+                    style={{
+                      padding: '12px 16px',
+                      border: '2px solid #FFD13A',
+                      borderRadius: '8px',
+                      fontSize: '1rem',
+                      width: '200px',
+                      textTransform: 'uppercase'
+                    }}
+                  />
+                  <button
+                    onClick={verifyCode}
+                    disabled={isVerifyingCode || !userCode.trim()}
+                    style={{
+                      backgroundColor: isVerifyingCode || !userCode.trim() ? '#cccccc' : '#000000',
+                      color: isVerifyingCode || !userCode.trim() ? '#666666' : '#FFD13A',
+                      padding: '12px 24px',
+                      border: 'none',
+                      borderRadius: '8px',
+                      cursor: isVerifyingCode || !userCode.trim() ? 'not-allowed' : 'pointer',
+                      fontWeight: 'bold',
+                      fontSize: '1rem',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    {isVerifyingCode ? '驗證中...' : '驗證'}
+                  </button>
+                </div>
+                {codeError && (
+                  <div style={{ 
+                    color: '#ff0000', 
+                    marginTop: '10px', 
+                    fontSize: '0.9rem',
+                    fontWeight: 'bold'
+                  }}>
+                    {codeError}
+                  </div>
                 )}
-              </ul>
-            </div>
-            {adjustedCalories !== null && (
-              <div className="nutritional-analysis">
-                <h3>營養分析：</h3>
-                {(() => {
-                  const nutrition = calculateNutritionalValues(ingredientAmounts);
-                  return (
-                    <ul>
-                      <li>總重量: {Math.round(nutrition.totalWeight)}g</li>
-                      <li>
-                        蛋白質: {Math.round(nutrition.totalProtein)}g / 目標: {Math.round(nutrition.targetProtein)}g (30% 總DM重量)
-                        {(() => {
-                          const ratio = nutrition.totalProtein / nutrition.targetProtein;
-                          if (ratio < 0.5) return ' (Too less)';
-                          if (ratio < 0.8) return ' (A bit less)';
-                          if (ratio <= 1.2) return ' (Fit)';
-                          if (ratio <= 1.5) return ' (A bit too much)';
-                          return ' (Too much)';
-                        })()}
-                      </li>
-                      <li>
-                        脂肪: {Math.round(nutrition.totalFat)}g / 目標: {Math.round(nutrition.targetFat)}g (17% 總DM重量)
-                        {(() => {
-                          const ratio = nutrition.totalFat / nutrition.targetFat;
-                          if (ratio < 0.5) return ' (Too less)';
-                          if (ratio < 0.8) return ' (A bit less)';
-                          if (ratio <= 1.2) return ' (Fit)';
-                          if (ratio <= 1.5) return ' (A bit too much)';
-                          return ' (Too much)';
-                        })()}
-                      </li>
-                      <li>
-                        維生素D: {Math.round(nutrition.totalVitaminD)}IU / 目標: {Math.round(nutrition.targetVitaminD)}IU (0.586IU/100g)
-                        {(() => {
-                          const ratio = nutrition.totalVitaminD / nutrition.targetVitaminD;
-                          if (ratio < 0.5) return ' (Too less)';
-                          if (ratio < 0.8) return ' (A bit less)';
-                          if (ratio <= 1.2) return ' (Fit)';
-                          if (ratio <= 1.5) return ' (A bit too much)';
-                          return ' (Too much)';
-                        })()}
-                      </li>
-                      <li>
-                        鈣磷比: {(nutrition.totalCalcium / nutrition.totalPhosphorus).toFixed(2)}:1
-                        {(() => {
-                          const ratio = nutrition.totalCalcium / nutrition.totalPhosphorus;
-                          if (ratio >= 1.1 && ratio <= 1.2) return ' (最佳比例)';
-                          if ((ratio >= 0.9 && ratio <= 1.1) || (ratio >= 1.2 && ratio <= 1.5)) return ' (可接受)';
-                          return ' (需要調整)';
-                        })()}
-                      </li>                     
-                      <li>鈣質: {Math.round(nutrition.totalCalcium)}mg</li>
-                      <li>磷質: {Math.round(nutrition.totalPhosphorus)}mg</li>
-                      <li>水分含量: {nutrition.moistureContent.toFixed(1)}%</li>
-                      <li>乾物質: {Math.round(nutrition.dryMatterWeight)}g</li>
-                      <li style={{fontWeight: 'bold', color: '#ff9800'}}>
-                        ★★★ 建議蛋殼粉用量: {(() => {
-                          const requiredCa = nutrition.totalPhosphorus * 1.2;
-                          const extraCa = requiredCa - nutrition.totalCalcium;
-                          const eggShellGrams = extraCa > 0 ? (extraCa / 400).toFixed(1) : '0';
-                          return eggShellGrams + 'g';
-                        })()} (使Ca:P=1.2:1)
-                      </li>
-                    </ul>
-                  );
-                })()}
               </div>
+            )}
+            
+            {/* Hidden Content - Only show after code verification */}
+            {codeVerified && (
+              <>
+                <div className="ingredient-amounts">
+                  <h3>所需食材份量：</h3>
+                  <ul>
+                    {GROUPS.map((group) =>
+                      selected[group].map((item) => (
+                        <li key={group + item}>
+                          {item}: {ingredientAmounts[item]}g
+                          <span className="ingredient-calories">
+                            ({INGREDIENT_ENERGY[item]} kcal/100g)
+                          </span>
+                        </li>
+                      ))
+                    )}
+                  </ul>
+                </div>
+                <div className="nutritional-analysis">
+                  <h3>營養分析：</h3>
+                  {(() => {
+                    const nutrition = calculateNutritionalValues(ingredientAmounts);
+                    return (
+                      <ul>
+                        <li>總重量: {Math.round(nutrition.totalWeight)}g</li>
+                        <li>
+                          蛋白質: {Math.round(nutrition.totalProtein)}g / 目標: {Math.round(nutrition.targetProtein)}g (30% 總DM重量)
+                          {(() => {
+                            const ratio = nutrition.totalProtein / nutrition.targetProtein;
+                            if (ratio < 0.5) return ' (Too less)';
+                            if (ratio < 0.8) return ' (A bit less)';
+                            if (ratio <= 1.2) return ' (Fit)';
+                            if (ratio <= 1.5) return ' (A bit too much)';
+                            return ' (Too much)';
+                          })()}
+                        </li>
+                        <li>
+                          脂肪: {Math.round(nutrition.totalFat)}g / 目標: {Math.round(nutrition.targetFat)}g (17% 總DM重量)
+                          {(() => {
+                            const ratio = nutrition.totalFat / nutrition.targetFat;
+                            if (ratio < 0.5) return ' (Too less)';
+                            if (ratio < 0.8) return ' (A bit less)';
+                            if (ratio <= 1.2) return ' (Fit)';
+                            if (ratio <= 1.5) return ' (A bit too much)';
+                            return ' (Too much)';
+                          })()}
+                        </li>
+                        <li>
+                          維生素D: {Math.round(nutrition.totalVitaminD)}IU / 目標: {Math.round(nutrition.targetVitaminD)}IU (0.586IU/100g)
+                          {(() => {
+                            const ratio = nutrition.totalVitaminD / nutrition.targetVitaminD;
+                            if (ratio < 0.5) return ' (Too less)';
+                            if (ratio < 0.8) return ' (A bit less)';
+                            if (ratio <= 1.2) return ' (Fit)';
+                            if (ratio <= 1.5) return ' (A bit too much)';
+                            return ' (Too much)';
+                          })()}
+                        </li>
+                        <li>
+                          鈣磷比: {(nutrition.totalCalcium / nutrition.totalPhosphorus).toFixed(2)}:1
+                          {(() => {
+                            const ratio = nutrition.totalCalcium / nutrition.totalPhosphorus;
+                            if (ratio >= 1.1 && ratio <= 1.2) return ' (最佳比例)';
+                            if ((ratio >= 0.9 && ratio <= 1.1) || (ratio >= 1.2 && ratio <= 1.5)) return ' (可接受)';
+                            return ' (需要調整)';
+                          })()}
+                        </li>                     
+                        <li>鈣質: {Math.round(nutrition.totalCalcium)}mg</li>
+                        <li>磷質: {Math.round(nutrition.totalPhosphorus)}mg</li>
+                        <li>水分含量: {nutrition.moistureContent.toFixed(1)}%</li>
+                        <li>乾物質: {Math.round(nutrition.dryMatterWeight)}g</li>
+                        <li style={{fontWeight: 'bold', color: '#ff9800'}}>
+                          ★★★ 建議蛋殼粉用量: {(() => {
+                            const requiredCa = nutrition.totalPhosphorus * 1.2;
+                            const extraCa = requiredCa - nutrition.totalCalcium;
+                            const eggShellGrams = extraCa > 0 ? (extraCa / 400).toFixed(1) : '0';
+                            return eggShellGrams + 'g';
+                          })()} (使Ca:P=1.2:1)
+                        </li>
+                      </ul>
+                    );
+                  })()}
+                </div>
+              </>
             )}
           </>
         )}
         
-        {/* Cooking Advice Section */}
-        <div className="cooking-advice-section">
-          <h3>AI 烹飪建議：</h3>
-          <button 
-            onClick={handleGetCookingAdvice}
-            disabled={isLoadingAdvice}
-            className="cooking-advice-btn"
-            style={{
-              backgroundColor: isLoadingAdvice ? '#cccccc' : '#000000',
-              color: isLoadingAdvice ? '#666666' : '#FFD13A',
-              padding: '12px 24px',
-              border: 'none',
-              borderRadius: '12px',
-              cursor: isLoadingAdvice ? 'not-allowed' : 'pointer',
-              marginBottom: '15px',
-              fontWeight: 'bold',
-              fontSize: '1rem',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            {isLoadingAdvice ? '獲取建議中...' : '獲取AI烹飪建議'}
-          </button>
-          
-          {cookingAdvice && (
-            <div className="cooking-advice-content" style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.3)',
-              padding: '15px',
-              borderRadius: '12px',
-              borderLeft: '4px solid #4CAF50',
-              marginTop: '10px',
-              border: '1px solid rgba(255, 255, 255, 0.2)'
-            }}>
-              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', margin: 0, color: '#000000' }}>
-                {cookingAdvice}
-              </pre>
-            </div>
-          )}
-        </div>
+        {/* Cooking Advice Section - Only show after code verification */}
+        {codeVerified && (
+          <div className="cooking-advice-section">
+            <h3>AI 烹飪建議：</h3>
+            <button 
+              onClick={handleGetCookingAdvice}
+              disabled={isLoadingAdvice}
+              className="cooking-advice-btn"
+              style={{
+                backgroundColor: isLoadingAdvice ? '#cccccc' : '#000000',
+                color: isLoadingAdvice ? '#666666' : '#FFD13A',
+                padding: '12px 24px',
+                border: 'none',
+                borderRadius: '12px',
+                cursor: isLoadingAdvice ? 'not-allowed' : 'pointer',
+                marginBottom: '15px',
+                fontWeight: 'bold',
+                fontSize: '1rem',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              {isLoadingAdvice ? '獲取建議中...' : '獲取AI烹飪建議'}
+            </button>
+            
+            {cookingAdvice && (
+              <div className="cooking-advice-content" style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                padding: '15px',
+                borderRadius: '12px',
+                borderLeft: '4px solid #4CAF50',
+                marginTop: '10px',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
+              }}>
+                <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', margin: 0, color: '#000000' }}>
+                  {cookingAdvice}
+                </pre>
+              </div>
+            )}
+          </div>
+        )}
         
         <button 
           onClick={() => {
@@ -1308,6 +1433,11 @@ function App() {
               vegetables: [],
               others: [],
             });
+            // Reset code verification states
+            setCodeVerified(false);
+            setUserCode('');
+            setCodeError('');
+            setCookingAdvice('');
           }}
           className="go-back-btn"
           style={{
