@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 type IngredientEnergy = {
@@ -961,6 +961,7 @@ function App() {
   const [userCode, setUserCode] = useState<string>('');
   const [codeError, setCodeError] = useState<string>('');
   const [isVerifyingCode, setIsVerifyingCode] = useState<boolean>(false);
+  const [activeBlink, setActiveBlink] = useState(0); // For blinking images
 
   // Close sidebar with Escape key
   React.useEffect(() => {
@@ -982,6 +983,25 @@ function App() {
       document.body.style.overflow = 'unset';
     };
   }, [sidebarOpen]);
+
+  // Auto-run AI consultant after code verification
+  useEffect(() => {
+    if (codeVerified && !cookingAdvice && !isLoadingAdvice) {
+      handleGetCookingAdvice();
+    }
+    // No return value here, just side effect
+  }, [codeVerified]);
+
+  // Blinking images animation for loading page
+  useEffect(() => {
+    if (step === 'loading') {
+      setActiveBlink(0);
+      const interval = setInterval(() => {
+        setActiveBlink((prev) => (prev + 1) % 3);
+      }, 400); // 400ms per blink
+      return () => clearInterval(interval);
+    }
+  }, [step]);
 
   const isSelectionValid = GROUPS.every(
     (group) => selected[group].length >= 1 && selected[group].length <= 3
@@ -1145,6 +1165,26 @@ function App() {
             <div className="loading-timer">
               <span>剩餘時間：{5 - loadingDuration} 秒</span>
             </div>
+          </div>
+          <div className="blinking-icons" style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', margin: '1.5rem 0' }}>
+            <img
+              src="/icons/carrot.png"
+              alt="Carrot"
+              className={`blinking-img${activeBlink === 0 ? ' active' : ''}`}
+              style={{ width: 64, height: 64 }}
+            />
+            <img
+              src="/icons/redmeat.png"
+              alt="Pig"
+              className={`blinking-img${activeBlink === 1 ? ' active' : ''}`}
+              style={{ width: 64, height: 64 }}
+            />
+            <img
+              src="/icons/cod.png"
+              alt="Fish"
+              className={`blinking-img${activeBlink === 2 ? ' active' : ''}`}
+              style={{ width: 64, height: 64 }}
+            />
           </div>
           <div className="loading-spinner"></div>
         </div>

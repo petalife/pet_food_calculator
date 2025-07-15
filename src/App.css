@@ -1179,3 +1179,13 @@ h2 {
     display: none;
   }
 }
+
+.blinking-img {
+  opacity: 0.3;
+  transition: opacity 0.2s;
+  filter: grayscale(60%);
+}
+.blinking-img.active {
+  opacity: 1;
+  filter: none;
+}

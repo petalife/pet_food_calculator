@@ -69,53 +69,42 @@ def handle_code_verification(body, headers):
         }
 
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('pet_food_calculator')
+    table_names = [
+        'pet_food_calculator_codes_1',
+        'pet_food_calculator_codes_2',
+        'pet_food_calculator_codes_3',
+        'pet_food_calculator_codes_4'
+    ]
 
-    # Get the item with partition key 'code1'
-    response = table.get_item(Key={'code': 'code1'})
-    if 'Item' not in response:
-        return {
-            'statusCode': 500,
-            'headers': headers,
-            'body': json.dumps({
-                'success': False,
-                'message': '資料庫錯誤'
-            }, ensure_ascii=False)
-        }
+    for table_name in table_names:
+        table = dynamodb.Table(table_name)
+        response = table.get_item(Key={'code': user_code})
+        if 'Item' in response:
+            # Code found, delete it for one-time use
+            try:
+                table.delete_item(Key={'code': user_code})
+            except Exception as e:
+                print(f"Error deleting code from {table_name}: {e}")
 
-    item = response['Item']
+            return {
+                'statusCode': 200,
+                'headers': headers,
+                'body': json.dumps({
+                    'success': True,
+                    'message': f'驗證碼正確，已刪除（來自 {table_name}）',
+                    'code': user_code
+                }, ensure_ascii=False)
+            }
 
-    # Check if the user code exists as an attribute
-    if user_code in item:
-        # Delete the code attribute after successful verification
-        try:
-            table.update_item(
-                Key={'code': 'code1'},
-                UpdateExpression='REMOVE #code_attr',
-                ExpressionAttributeNames={'#code_attr': user_code}
-            )
-        except Exception as e:
-            # Log the error but still return success to the user
-            print(f"Error deleting code: {e}")
-
-        return {
-            'statusCode': 200,
-            'headers': headers,
-            'body': json.dumps({
-                'success': True,
-                'message': '驗證碼正確，已刪除',
-                'code': user_code
-            }, ensure_ascii=False)
-        }
-    else:
-        return {
-            'statusCode': 200,
-            'headers': headers,
-            'body': json.dumps({
-                'success': False,
-                'message': '驗證碼錯誤'
-            }, ensure_ascii=False)
-        }
+    # If not found in any table
+    return {
+        'statusCode': 200,
+        'headers': headers,
+        'body': json.dumps({
+            'success': False,
+            'message': '驗證碼錯誤'
+        }, ensure_ascii=False)
+    }
 
 def handle_cooking_advice(body, headers):
     """Handle cooking advice requests (original function logic)"""
