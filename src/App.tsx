@@ -963,6 +963,11 @@ function App() {
   const [isVerifyingCode, setIsVerifyingCode] = useState<boolean>(false);
   const [activeBlink, setActiveBlink] = useState(0); // For blinking images
 
+  // User info states
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [adConsent, setAdConsent] = useState(false);
+
   // Close sidebar with Escape key
   React.useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -1012,7 +1017,7 @@ function App() {
     return !isNaN(weightNum) && weightNum > 0;
   };
 
-  const isFormValid = isSelectionValid && isWeightValid();
+  const isFormValid = isSelectionValid && isWeightValid() && userName.trim() !== '' && userEmail.trim() !== '';
 
   // Backend API function (secure)
   const callBackendAPI = async (ingredients: string[], cookingMethod: string, petType: string) => {
@@ -1575,6 +1580,37 @@ function App() {
     <div className="app-container">
       <h2>生成鮮食譜</h2>
       <form onSubmit={handleSubmit} className="pet-form">
+        {/* User Info Section */}
+        <div className="user-info-section" style={{ marginBottom: '2rem', padding: '1.5rem', background: 'rgba(255,255,255,0.5)', borderRadius: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+          <h3 style={{ marginTop: 0 }}>請輸入主人的資訊</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <input
+              type="text"
+              value={userName}
+              onChange={e => setUserName(e.target.value)}
+              placeholder="姓名 (必填)"
+              style={{ padding: '0.8rem', borderRadius: '8px', border: '1.5px solid #FFD13A', fontSize: '1.1rem' }}
+              required
+            />
+            <input
+              type="email"
+              value={userEmail}
+              onChange={e => setUserEmail(e.target.value)}
+              placeholder="電子郵件 (必填)"
+              style={{ padding: '0.8rem', borderRadius: '8px', border: '1.5px solid #FFD13A', fontSize: '1.1rem' }}
+              required
+            />
+            <label style={{ display: 'flex', alignItems: 'center', fontSize: '1rem', gap: '0.5rem' }}>
+              <input
+                type="checkbox"
+                checked={adConsent}
+                onChange={e => setAdConsent(e.target.checked)}
+                style={{ width: '1.2em', height: '1.2em' }}
+              />
+              我同意 Petalife 向我發送產品及優惠資訊 (選填)
+            </label>
+          </div>
+        </div>
         <label>
           1) 寵物名稱：
           <input

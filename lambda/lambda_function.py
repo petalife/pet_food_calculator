@@ -39,6 +39,9 @@ def lambda_handler(event, context):
             raw_body = base64.b64decode(raw_body).decode('utf-8')
         body = json.loads(raw_body)
         
+        # Save user info if userName and userEmail are present
+        if 'userName' in body and 'userEmail' in body:
+            return handle_save_user_info(body, headers)
         # Check if this is a code verification request
         if 'code' in body and len(body) == 1:
             return handle_code_verification(body, headers)
@@ -198,3 +201,26 @@ Please provide detailed cooking instructions for a {pet_type_text} using these i
                 'message': '收到回應但格式不正確，請稍後再試。'
             }, ensure_ascii=False)
         } 
+
+def handle_save_user_info(body, headers):
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('pet_food_calculator_user_info')
+    user_name = body.get('userName')
+    user_email = body.get('userEmail')
+    ad_consent = body.get('adConsent', False)
+
+    # Save to DynamoDB
+    table.put_item(Item={
+        'email': user_email,  # Partition key
+        'name': user_name,
+        'ad_consent': bool(ad_consent)
+    })
+
+    return {
+        'statusCode': 200,
+        'headers': headers,
+        'body': json.dumps({
+            'success': True,
+            'message': 'User info saved'
+        })
+    } 
