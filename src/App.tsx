@@ -1142,17 +1142,44 @@ function App() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Add your Lambda endpoint here
+  const USER_INFO_LAMBDA_URL = import.meta.env.VITE_BACKEND_URL;
+
+  // Function to submit user info to Lambda
+  const submitUserInfo = async () => {
+    try {
+      const response = await fetch(USER_INFO_LAMBDA_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userName,
+          userEmail,
+          adConsent
+        })
+      });
+      const data = await response.json();
+      return data.success;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Save user info to Lambda first
+    const ok = await submitUserInfo();
+    if (!ok) {
+      alert('無法儲存用戶資訊，請稍後再試');
+      return;
+    }
     setStep('loading');
     setLoadingDuration(0);
-    
     // Simulate loading for 5 seconds
     const interval = setInterval(() => {
       setLoadingDuration(prev => {
         if (prev >= 5) {
           clearInterval(interval);
-    setStep('result');
+          setStep('result');
           return 0;
         }
         return prev + 1;
