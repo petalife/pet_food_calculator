@@ -1059,7 +1059,7 @@ function App() {
     setCodeError('');
     
     try {
-      const verifyUrl = import.meta.env.VITE_VERIFY_CODE_URL;
+      const verifyUrl = import.meta.env.VITE_BACKEND_URL;
       
       if (!verifyUrl) {
         throw new Error('Verify code URL not configured');
