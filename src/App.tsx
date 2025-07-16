@@ -1317,7 +1317,7 @@ function App() {
                   <input
                     type="text"
                     value={userCode}
-                    onChange={(e) => setUserCode(e.target.value.toUpperCase())}
+                    onChange={(e) => setUserCode(e.target.value)}
                     placeholder="輸入8位數驗證碼"
                     maxLength={8}
                     style={{
@@ -1326,7 +1326,7 @@ function App() {
                       borderRadius: '8px',
                       fontSize: '1rem',
                       width: '200px',
-                      textTransform: 'uppercase'
+                      // textTransform: 'uppercase' // allow both cases
                     }}
                   />
                   <button
