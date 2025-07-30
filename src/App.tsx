@@ -1269,7 +1269,12 @@ function App() {
     const ingredientAmounts = adjustedCalories ? calculateIngredientAmounts(adjustedCalories, selected) : {};
 
     return (
-      <div className="result-container">
+      <>
+        <div className="app-wrapper">
+          {/* Top Logo */}
+          <img src="/powered-by-petalife.png" alt="Company Logo" className="company-icon" />
+          
+          <div className="result-container">
         <h2>結果</h2>
         <div className="pet-info">
           <h3>寵物資訊：</h3>
@@ -1529,7 +1534,15 @@ function App() {
           返回
         </button>
         
-      </div>
+          </div>
+        </div>
+        
+        {/* Powered by section - positioned at bottom of page */}
+        <div className="powered-by-section">
+          <span className="powered-by-text">Powered by</span>
+          <img src="/company-icon.jpg" alt="Original Company Logo" className="powered-by-logo" />
+        </div>
+      </>
     );
   }
 
