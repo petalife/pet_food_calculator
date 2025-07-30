@@ -1528,16 +1528,21 @@ function App() {
         >
           返回
         </button>
+        
       </div>
     );
   }
 
   return (
-    <div className="app-wrapper">
+    <>
+      <div className="app-wrapper">
       {/* Hamburger Menu */}
       <div 
         className={`hamburger-menu ${sidebarOpen ? 'active' : ''}`}
-        onClick={() => setSidebarOpen(!sidebarOpen)}
+        onClick={() => {
+          console.log('Hamburger clicked, current state:', sidebarOpen);
+          setSidebarOpen(!sidebarOpen);
+        }}
       >
         <div className="hamburger-icon">
           <div className="hamburger-line"></div>
@@ -1553,7 +1558,7 @@ function App() {
       ></div>
 
       {/* Suggestions Sidebar */}
-      <div className={`suggestions-sidebar ${sidebarOpen ? 'open' : ''}`}>
+      <div className={`suggestions-sidebar ${sidebarOpen ? 'open' : ''}`} style={{left: sidebarOpen ? '0px' : '-350px'}}>
         <div className="sidebar-section">
           <h4>狗狗食譜建議</h4>
           <div className="sidebar-suggestions-list">
@@ -1602,7 +1607,7 @@ function App() {
       </div>
       
     <div className="company-icon">
-      <img src="/company-icon.jpg" alt="Company Logo" />
+      <img src="/powered-by-petalife.png" alt="Petalife Logo" />
     </div>
     <div className="app-container">
       <h2>生成鮮食譜</h2>
@@ -1652,7 +1657,10 @@ function App() {
           2) 寵物類型：
           <select
             value={petType}
-            onChange={(e) => setPetType(e.target.value as 'cat' | 'dog')}
+            onChange={(e) => {
+              console.log('Pet type changed to:', e.target.value);
+              setPetType(e.target.value as 'cat' | 'dog');
+            }}
             required
           >
             <option value="dog">狗</option>
@@ -1663,7 +1671,10 @@ function App() {
           3) 年齡：
           <select
             value={age}
-            onChange={(e) => setAge(e.target.value as '0-4months' | '4-12months' | '1-5year' | '5-10year' | '10-15year' | '15-20year')}
+            onChange={(e) => {
+              console.log('Age changed to:', e.target.value);
+              setAge(e.target.value as '0-4months' | '4-12months' | '1-5year' | '5-10year' | '10-15year' | '15-20year');
+            }}
             required
           >
             <option value="0-4months">0-4個月</option>
@@ -1678,7 +1689,10 @@ function App() {
           4) 是否結紮：
           <select
             value={neutered}
-            onChange={(e) => setNeutered(e.target.value as 'yes' | 'no')}
+            onChange={(e) => {
+              console.log('Neutered changed to:', e.target.value);
+              setNeutered(e.target.value as 'yes' | 'no');
+            }}
             required
           >
             <option value="no">否</option>
@@ -1700,7 +1714,10 @@ function App() {
           6) 烹飪方式：
           <select
             value={cookingMethod}
-            onChange={(e) => setCookingMethod(e.target.value as 'pan-fried' | 'steamed' | 'oven')}
+            onChange={(e) => {
+              console.log('Cooking method changed to:', e.target.value);
+              setCookingMethod(e.target.value as 'pan-fried' | 'steamed' | 'oven');
+            }}
             required
           >
             <option value="steamed">蒸煮</option>
@@ -1811,6 +1828,11 @@ function App() {
             請輸入有效的體重數字
           </div>
         )}
+        {(petName.trim() === '' || weight.trim() === '') && (
+          <div style={{ color: 'red', marginBottom: '1em', fontWeight: 'bold' }}>
+            警告：請輸入寵物名稱和體重
+          </div>
+        )}
         <button
           type="submit"
           className="submit-btn"
@@ -1819,8 +1841,16 @@ function App() {
           提交
         </button>
       </form>
+      
       </div>
     </div>
+    
+    {/* Powered by section - positioned at bottom of page */}
+    <div className="powered-by-section">
+      <span className="powered-by-text">Powered by</span>
+      <img src="/company-icon.jpg" alt="Original Company Logo" className="powered-by-logo" />
+    </div>
+    </>
   );
 }
 
